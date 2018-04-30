@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {Meteor} from 'meteor/meteor';
+import CreateEvent from "./CreateEvent";
 
 
 class App extends Component {
@@ -9,15 +10,15 @@ class App extends Component {
     }
 
     componentDidMount() {
-        Meteor.call("tweets.stream","twitter", (err,res)=>{
+        Meteor.call("tweets.stream", "twitter", (err, stream) => {
             if (err) throw err;
-            console.log(res);
+            console.log(stream);
         });
     }
 
     render() {
         return (
-            <div>App</div>
+            <CreateEvent/>
         );
     }
 }

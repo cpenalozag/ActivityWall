@@ -1,7 +1,7 @@
 import {Meteor} from 'meteor/meteor';
 import {Inject} from "meteor/meteorhacks:inject-initial";
 
-import "../imports/api/methods"
+import "../imports/api/tweets"
 
 Meteor.startup(() => {
     // code to run on server at startup
