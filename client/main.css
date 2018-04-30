@@ -59,7 +59,7 @@ h3 {
     display: flex;
 }
 .row {
-    margin: auto;
+    margin: auto !important;
 
 }
 .instagram {

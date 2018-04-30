@@ -5,7 +5,10 @@ class CreateEvent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentTab: 0
+            currentTab: 0,
+            colorBackground: "#ffffff",
+            colorTitle: "#ffffff",
+            colorBody: "#ffffff",
         };
     }
 
@@ -16,6 +19,21 @@ class CreateEvent extends Component {
     prev() {
         this.setState({currentTab: this.state.currentTab - 1});
     }
+
+    handleChangeCompleteBackground = (color) => {
+        this.setState({ colorBackground: color.hex });
+        console.log(this.state);
+    };
+
+    handleChangeCompleteTitle = (color) => {
+        this.setState({ colorTitle: color.hex });
+        console.log(this.state);
+    };
+
+    handleChangeCompleteBody = (color) => {
+        this.setState({ colorBody: color.hex });
+        console.log(this.state);
+    };
 
     render() {
         return (
@@ -38,9 +56,12 @@ class CreateEvent extends Component {
                             <h1 className="title-home">Choose your colors</h1>
                             <div className="color-pickers">
                                 <div className="row">
-                                    <div className="col-md-4"><ColorPicker/></div>
-                                    <div className="col-md-4"><ColorPicker/></div>
-                                    <div className="col-md-4"><ColorPicker/></div>
+                                    <div className="col-md-4"><ColorPicker color={ this.state.colorBackground }
+                                                                           onChangeComplete={ this.handleChangeCompleteBackground.bind(this) }/></div>
+                                    <div className="col-md-4"><ColorPicker color={ this.state.colorBody }
+                                                                                onChangeComplete={ this.handleChangeCompleteTitle.bind(this) }/></div>
+                                    <div className="col-md-4"><ColorPicker color={ this.state.colorTitle }
+                                                                           onChangeComplete={ this.handleChangeCompleteBody.bind(this) }/></div>
                                 </div>
                             </div>
                         </div>
@@ -49,16 +70,14 @@ class CreateEvent extends Component {
                         </div>
                         <div className="carousel-item text-center">
                             <h1 className="title-home">Write your hashtag</h1>
-                            <p className="p-home">
-                                <form class="form-inline">
-                                    <div class="form-group">
-                                        <label for="exampleInputName2">#</label>
-                                        <input type="text" class="form-control" id="exampleInputName2"
-                                               placeholder="Greeicy cosita"/>
-                                    </div>
-                                    <button type="submit" class="btn btn-default">Search</button>
-                                </form>
-                            </p>
+                            <form className="form-inline">
+                                <div className="form-group">
+                                    <label htmlFor="exampleInputName2">#</label>
+                                    <input type="text" className="form-control" id="exampleInputName2"
+                                           placeholder="Greeicy cosita"/>
+                                </div>
+                                <button type="submit" className="btn btn-default">Search</button>
+                            </form>
                         </div>
                     </div>
                     {this.state.currentTab !== 0 ?

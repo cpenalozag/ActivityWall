@@ -1,7 +1,7 @@
 import { Mongo } from "meteor/mongo";
 import {Meteor} from "meteor/meteor";
 import {check} from "meteor/check";
-import {SimpleSchema} from "simpl-schema";
+import {SimpleSchema} from "simpl-schema/dist/SimpleSchema";
 
 export const Tweets = new Mongo.Collection("Tweets");
 
@@ -26,7 +26,7 @@ Meteor.methods({
          * number of tweets per second depends on topic popularity
          **/
         var stream = client.stream("statuses/filter", {track: `#${hashtag}`}, function(stream) {
-            stream.on("data", function(data) {
+            stream.on("data", Meteor.bindEnvironment(function(data) {
                 // Construct a new tweet object
                 const tweet = {
                     query: hashtag,
@@ -37,23 +37,24 @@ Meteor.methods({
                     date: data["created_at"],
                     screenname: data["user"]["screen_name"]
                 };
+
                 new SimpleSchema({
                     query: {type: String},
-                    twid: {type: String},
+                    twid: {type: Number},
                     author: {type: String},
                     avatar: {type: String},
                     body: {type: String},
-                    date: {type: Date},
+                    date: {type: String},
                     screenname: {type: String},
                 }).validate(tweet);
-
+                console.log(tweet);
                 Tweets.insert(tweet);
 
-            });
+            }));
 
-            stream.on("error", function(error) {
-                throw error;
-            });
+            stream.on("error", Meteor.bindEnvironment(function(error) {
+                console.log("Error " + error);
+            }));
         });
         return stream;
     }
