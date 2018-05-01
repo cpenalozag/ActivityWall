@@ -10,10 +10,10 @@ class App extends Component {
     }
 
     componentDidMount() {
-        Meteor.call("tweets.stream", "twitter", (err, stream) => {
-            if (err) throw err;
-            console.log(stream);
-        });
+        //Meteor.call("tweets.stream", "twitter", (err, stream) => {
+        //    if (err) throw err;
+        //    console.log(stream);
+        //});
     }
 
     render() {

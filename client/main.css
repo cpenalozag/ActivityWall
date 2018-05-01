@@ -8,14 +8,35 @@
 .carousel-inner {
     min-height: 100%;
 }
-
+.container-fluid {
+    padding: 0 !important;
+}
+.side-pad {
+    padding: 0vh 10vh;
+}
 .create-event {
-    padding-top: 10vh;
+    background-image: url("images/bk.jpg");
     position: absolute;
-    background-color: black;
     text-align: center;
     margin: auto;
+    z-index: -10;
     min-height: 100%;
+}
+.icon {
+    font-size: 1.8rem;
+    color: #00aced;
+}
+.img-medium {
+    max-width: 80%;
+    margin: auto;
+}
+.overlay {
+    padding-top: 15vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: -2;
+    position: absolute;
+    height: 100%;
+    width: 100%;
 }
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, a, button, input, select, textarea {
     -moz-osx-font-smoothing: grayscale;
@@ -29,6 +50,7 @@ h1, h2, h3, h4 {
 }
 
 h1 {
+    font-family: "Montserrat";
     font-size: 3.6em;
 }
 
@@ -43,14 +65,26 @@ h3 {
 }
 
 .title-home{
+    font-family: "Montserrat";
     font-size: 3.6em;
     color: #ffffff;
+    margin-bottom: 5vh;
 }
 
 .p-home{
     color: white;
     font-size: 1.825em;
     line-height: 1.4;
+}
+.home-list{
+    color: white;
+    font-size: 1.6em;
+    line-height: 1.3;
+}
+.description {
+    color: white;
+    font-size: 1.2em;
+    line-height: 1.2;
 }
 .color-pickers {
     text-align: center;
@@ -80,4 +114,32 @@ h3 {
 
 .twitter {
     background-color: #00aced;
+}
+
+.input-hidden {
+    position: absolute;
+    left: -9999px;
+}
+
+input[type=radio]:checked + label>img {
+    border: 1px solid #fff;
+    box-shadow: 0 0 2px 2px #00aced;
+}
+
+/* Stuff after this is only to make things more pretty */
+input[type=radio] + label>img {
+    transition: 500ms all;
+}
+
+input[type=radio]:checked + label>img {
+    transform: scale(1.1,1.1);
+}
+
+/*
+ | //lea.verou.me/css3patterns
+ | Because white bgs are boring.
+*/
+html {
+    background-color: #fff;
+    background-size: 100% 1.2em;
 }

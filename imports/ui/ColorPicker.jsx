@@ -5,7 +5,7 @@ class ColorPicker extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            background: '#fff',
+            background: this.props.color,
         };
 
     }
