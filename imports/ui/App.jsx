@@ -1,7 +1,9 @@
 import React, {Component} from "react";
 import {Meteor} from 'meteor/meteor';
-import CreateEvent from "./CreateEvent";
+import { Switch, Route } from 'react-router-dom'
 
+import CreateEvent from "./CreateEvent";
+import Wall from "./Wall";
 
 class App extends Component {
     constructor(props) {
@@ -9,16 +11,12 @@ class App extends Component {
         this.state = {};
     }
 
-    componentDidMount() {
-        //Meteor.call("tweets.stream", "twitter", (err, stream) => {
-        //    if (err) throw err;
-        //    console.log(stream);
-        //});
-    }
-
     render() {
         return (
-            <CreateEvent/>
+            <Switch>
+                <Route exact path='/' component={CreateEvent}/>
+                <Route path='/wall' component={Wall}/>
+            </Switch>
         );
     }
 }
