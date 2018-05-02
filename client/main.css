@@ -172,6 +172,13 @@ h3 {
     color: #00aced;
 }
 
+.hashtag {
+    color: #ffffff;
+    font-size: 1.6rem;
+    margin-bottom: 1vh;
+    margin-right: 1vh;
+}
+
 /* Style for social network icons */
 
 .input-hidden {
