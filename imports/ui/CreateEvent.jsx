@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {Redirect} from 'react-router';
+import ReactDOM from 'react-dom';
 
 import ColorPicker from "./ColorPicker";
 
@@ -11,13 +12,17 @@ class CreateEvent extends Component {
             colorBackground: "#040408",
             colorTitle: "#00aced",
             colorBody: "#E9F2F2",
+            hashi:""
         };
     }
 
     handleOnClick = () => {
+        const hash = ReactDOM.findDOMNode(this.refs.hashtag).value.trim();
+        console.log(hash);
+
         // Get user input
         // then redirect
-        this.setState({redirect: true});
+        this.setState({hashi: hash, redirect: true});
     }
 
     next() {
@@ -45,7 +50,7 @@ class CreateEvent extends Component {
 
     render() {
         if (this.state.redirect) {
-            return <Redirect push to="/Wall"/>;
+            return <Redirect to={{pathname:"/Wall", state:{referrer:this.state.hashi}}}/>;
         }
         return (
 
@@ -193,7 +198,7 @@ class CreateEvent extends Component {
                                             <div className="form-group">
                                                 <label htmlFor="exampleInputName2">#</label>
                                                 <input type="text" className="form-control" id="exampleInputName2"
-                                                       placeholder="Greeicy cosita"/>
+                                                       placeholder="Greeicy cosita" ref = "hashtag"/>
                                             </div>
                                             <button onClick={this.handleOnClick} type="button" className="btn btn-primary">Button</button>
                                         </div>

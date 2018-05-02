@@ -6,9 +6,12 @@ import {SimpleSchema} from "simpl-schema/dist/SimpleSchema";
 export const Tweets = new Mongo.Collection("Tweets");
 
 if(Meteor.isServer){
-    Meteor.publish("Tweets", (id) => {
-        return Tweets.find({eventId:id}, {sort: {createdAt: 1}});
+    Meteor.publish("Tweets", (hashi) => {
+        return Tweets.find({query:hashi}, {sort: {createdAt: 1}});
     });
+    Meteor.publish("Tweets", ()=>{
+        return Tweets.find({});
+    })
 }
 
 Meteor.methods({
@@ -25,7 +28,7 @@ Meteor.methods({
          * Stream statuses filtered by keyword
          * number of tweets per second depends on topic popularity
          **/
-        var stream = client.stream("statuses/filter", {track: `#${hashtag}`}, function(stream) {
+        return client.stream("statuses/filter", {track: `#${hashtag}`}, function(stream) {
             stream.on("data", Meteor.bindEnvironment(function(data) {
                 // Construct a new tweet object
                 const tweet = {
@@ -56,6 +59,6 @@ Meteor.methods({
                 console.log("Error " + error);
             }));
         });
-        return stream;
+        //return stream;
     }
 })

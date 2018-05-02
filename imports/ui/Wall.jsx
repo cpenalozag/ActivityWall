@@ -1,4 +1,6 @@
 import React, {Component} from "react";
+import { Tweets } from "../api/tweets";
+import {withTracker} from 'meteor/react-meteor-data';
 
 
 class Wall extends Component {
@@ -9,10 +11,11 @@ class Wall extends Component {
     }
 
     componentDidMount() {
-        //Meteor.call("tweets.stream", "twitter", (err, stream) => {
-        //    if (err) throw err;
-        //    console.log(stream);
-        //});
+        var hash = this.props.location.state.referrer;
+        Meteor.call("tweets.stream", hash, (err, stream) => {
+            if (err) throw err;
+            //console.log("tweet: ", stream);
+        });
     }
 
     renderTweets() {
@@ -25,25 +28,27 @@ class Wall extends Component {
         return (
             <div>
                 <h1>Tweets</h1>
+                {this.renderTweets()}
             </div>
         );
     }
 }
-export default Wall;
-//export default withTracker((props) => {
-//    Meteor.subscribe('Tweets', "twitter");
-//    return {
-//        tweets: Tweets.find({}).fetch()
-//    };
-//})(Wall);
+//export default Wall;
+export default withTracker(() => {
+    console.log(this.props);
+    Meteor.subscribe('Tweets');
+    return {
+        tweets: Tweets.find({}).fetch()
+    };
+})(Wall);
 
 class Tweet extends Component {
     render() {
         return (
             <div className="">
-                <p>{tweet.author}</p>
-                <p>{tweet.body}</p>
-                <p>{tweet.date}</p>
+                <p>{this.props.tweet.author}</p>
+                <p>{this.props.tweet.body}</p>
+                <p>{this.props.tweet.date}</p>
             </div>
         );
     }
