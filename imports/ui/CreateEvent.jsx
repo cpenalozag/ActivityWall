@@ -12,17 +12,16 @@ class CreateEvent extends Component {
             colorBackground: "#040408",
             colorTitle: "#00aced",
             colorBody: "#E9F2F2",
-            hashi:""
+            hashtag:""
         };
     }
 
     handleOnClick = () => {
         const hash = ReactDOM.findDOMNode(this.refs.hashtag).value.trim();
-        console.log(hash);
 
         // Get user input
         // then redirect
-        this.setState({hashi: hash, redirect: true});
+        this.setState({hashtag: hash, redirect: true});
     }
 
     next() {
@@ -50,7 +49,7 @@ class CreateEvent extends Component {
 
     render() {
         if (this.state.redirect) {
-            return <Redirect to={{pathname:"/Wall", state:{referrer:this.state.hashi}}}/>;
+            return <Redirect to={{pathname:"/Wall", state:{referrer:this.state.hashtag}}}/>;
         }
         return (
 

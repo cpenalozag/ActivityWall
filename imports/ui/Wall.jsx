@@ -6,18 +6,14 @@ import {withTracker} from 'meteor/react-meteor-data';
 class Wall extends Component {
     constructor(props) {
         super(props);
-        console.log(this.props);
         this.state = {};
     }
 
     componentDidMount() {
         var hash = this.props.location.state.referrer;
-        Meteor.call("tweets.stream", hash, (err, stream) => {
-            if (err) throw err;
-            //console.log("tweet: ", stream);
-        });
+        Meteor.call("tweets.stream", hash);
     }
-
+    
     renderTweets() {
         return this.props.tweets.map((tweet) => (
             <Tweet key={tweet._id} tweet={tweet}/>
@@ -34,9 +30,10 @@ class Wall extends Component {
     }
 }
 //export default Wall;
-export default withTracker(() => {
-    console.log(this.props);
-    Meteor.subscribe('Tweets');
+export default withTracker((props) => {
+    console.log(props.location.state.referrer);
+
+    Meteor.subscribe('Tweets',props.location.state.referrer);
     return {
         tweets: Tweets.find({}).fetch()
     };

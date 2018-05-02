@@ -1,21 +1,18 @@
-import { Mongo } from "meteor/mongo";
+import {Mongo} from "meteor/mongo";
 import {Meteor} from "meteor/meteor";
 import {check} from "meteor/check";
 import {SimpleSchema} from "simpl-schema/dist/SimpleSchema";
 
 export const Tweets = new Mongo.Collection("Tweets");
 
-if(Meteor.isServer){
-    Meteor.publish("Tweets", (hashi) => {
-        return Tweets.find({query:hashi}, {sort: {createdAt: 1}});
+if (Meteor.isServer) {
+    Meteor.publish("Tweets", (hashtag) => {
+        return Tweets.find({query: hashtag}, {sort: {createdAt: 1}});
     });
-    Meteor.publish("Tweets", ()=>{
-        return Tweets.find({});
-    })
 }
 
 Meteor.methods({
-    "tweets.stream"(hashtag){
+    "tweets.stream"(hashtag) {
         check(hashtag, String);
         var Twitter = require("twitter");
         var client = new Twitter({
@@ -28,8 +25,8 @@ Meteor.methods({
          * Stream statuses filtered by keyword
          * number of tweets per second depends on topic popularity
          **/
-        return client.stream("statuses/filter", {track: `#${hashtag}`}, function(stream) {
-            stream.on("data", Meteor.bindEnvironment(function(data) {
+        client.stream("statuses/filter", {track: `#${hashtag}`}, function (stream) {
+            stream.on("data", Meteor.bindEnvironment(function (data) {
                 // Construct a new tweet object
                 const tweet = {
                     query: hashtag,
@@ -55,10 +52,9 @@ Meteor.methods({
 
             }));
 
-            stream.on("error", Meteor.bindEnvironment(function(error) {
+            stream.on("error", Meteor.bindEnvironment(function (error) {
                 console.log("Error " + error);
             }));
         });
-        //return stream;
     }
 })
