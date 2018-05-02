@@ -12,39 +12,41 @@ class CreateEvent extends Component {
             colorBackground: "#040408",
             colorTitle: "#00aced",
             colorBody: "#E9F2F2",
+            arrowEnabled: true,
             hashtag:""
         };
     }
 
     handleOnClick = () => {
+        // Get user input
         const hash = ReactDOM.findDOMNode(this.refs.hashtag).value.trim();
 
-        // Get user input
         // then redirect
         this.setState({hashtag: hash, redirect: true});
     }
 
     next() {
-        this.setState({currentTab: this.state.currentTab + 1});
+        this.setState({currentTab: this.state.currentTab + 1, arrowEnabled: false});
+        console.log(this.state);
+        setTimeout(this.setState({arrowEnabled:true}), 3000);
+        console.log(this.state);
     }
 
     prev() {
         this.setState({currentTab: this.state.currentTab - 1});
     }
 
+
     handleChangeCompleteBackground = (color) => {
         this.setState({colorBackground: color.hex});
-        console.log(this.state);
     };
 
     handleChangeCompleteTitle = (color) => {
         this.setState({colorTitle: color.hex});
-        console.log(this.state);
     };
 
     handleChangeCompleteBody = (color) => {
         this.setState({colorBody: color.hex});
-        console.log(this.state);
     };
 
     render() {
@@ -208,7 +210,7 @@ class CreateEvent extends Component {
 
                         </div>
                     </div>
-                    {this.state.currentTab !== 0 ?
+                    {this.state.currentTab !== 0 && this.state.arrowEnabled ?
                         <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button"
                            onClick={this.prev.bind(this)}
                            data-slide="prev">
@@ -216,7 +218,7 @@ class CreateEvent extends Component {
                             <span className="sr-only">Previous</span>
                         </a> :
                         ""}
-                    {this.state.currentTab !== 3 ?
+                    {this.state.currentTab !== 3 && this.state.arrowEnabled ?
                         <a className="carousel-control-next" href="#carouselExampleIndicators" role="button"
                            onClick={this.next.bind(this)}
                            data-slide="next">
