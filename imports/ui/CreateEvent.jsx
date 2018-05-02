@@ -16,12 +16,23 @@ class CreateEvent extends Component {
         };
     }
 
-    handleOnClick = () => {
+    handleOnClick(evt){
+        if(evt.key!=="Enter"){
+            return;
+        }
         const hash = ReactDOM.findDOMNode(this.refs.hashtag).value.trim();
+
+        console.log("click ",evt.target.value);
+        //Meteor.call("tweets.stream",evt.target.value);
+        Meteor.call("tweets.stream", evt.target.value, (err, stream) => {
+            if (err) throw err;
+            console.log("tweet: ", stream);
+        });
 
         // Get user input
         // then redirect
-        this.setState({hashtag: hash, redirect: true});
+
+        this.setState({hashtag: evt.target.value, redirect: true});
     }
 
     next() {
@@ -197,7 +208,7 @@ class CreateEvent extends Component {
                                             <div className="form-group">
                                                 <label htmlFor="exampleInputName2">#</label>
                                                 <input type="text" className="form-control" id="exampleInputName2"
-                                                       placeholder="Greeicy cosita" ref = "hashtag"/>
+                                                       placeholder="Greeicy cosita" ref = "hashtag" onKeyPress={this.handleOnClick.bind(this)}/>
                                             </div>
                                             <button onClick={this.handleOnClick} type="button" className="btn btn-primary">Button</button>
                                         </div>

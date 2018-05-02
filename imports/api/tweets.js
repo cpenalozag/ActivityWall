@@ -5,14 +5,19 @@ import {SimpleSchema} from "simpl-schema/dist/SimpleSchema";
 
 export const Tweets = new Mongo.Collection("Tweets");
 
+
+let stream =null;
+
 if (Meteor.isServer) {
     Meteor.publish("Tweets", (hashtag) => {
-        return Tweets.find({query: hashtag}, {sort: {createdAt: 1}});
+        console.log("query", hashtag);
+        return Tweets.find({query: hashtag});
     });
 }
 
 Meteor.methods({
     "tweets.stream"(hashtag) {
+        console.log("inserting tweets")
         check(hashtag, String);
         var Twitter = require("twitter");
         var client = new Twitter({
@@ -21,11 +26,18 @@ Meteor.methods({
             access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
             access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
         });
+        if(stream){
+            console.log("Stopping previous stream");
+            stream.destroy();
+            // Remove all the tweets
+            Tweets.remove({});
+        }
         /**
          * Stream statuses filtered by keyword
          * number of tweets per second depends on topic popularity
          **/
-        client.stream("statuses/filter", {track: `#${hashtag}`}, function (stream) {
+        console.log("reinserting");
+        client.stream("statuses/filter", {track: `#@hashtag`},  (stream)=> {
             stream.on("data", Meteor.bindEnvironment(function (data) {
                 // Construct a new tweet object
                 const tweet = {
@@ -54,7 +66,9 @@ Meteor.methods({
 
             stream.on("error", Meteor.bindEnvironment(function (error) {
                 console.log("Error " + error);
+                //throw Meteor.Error(error);
             }));
         });
+
     }
 })

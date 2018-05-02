@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import { Tweets } from "../api/tweets";
 import {withTracker} from 'meteor/react-meteor-data';
+import BubbleChart from "./BubbleChart.js";
 
 
 class Wall extends Component {
@@ -10,11 +11,12 @@ class Wall extends Component {
     }
 
     componentDidMount() {
-        var hash = this.props.location.state.referrer;
-        Meteor.call("tweets.stream", hash);
+        //var hash = this.props.location.state.referrer;
+        //Meteor.call("tweets.stream", hash);
     }
     
     renderTweets() {
+        console.log(this.props.tweets);
         return this.props.tweets.map((tweet) => (
             <Tweet key={tweet._id} tweet={tweet}/>
         ));
@@ -23,17 +25,20 @@ class Wall extends Component {
     render() {
         return (
             <div>
+                <BubbleChart/>
                 <h1>Tweets</h1>
                 {this.renderTweets()}
+
             </div>
         );
     }
 }
 //export default Wall;
 export default withTracker((props) => {
-    console.log(props.location.state.referrer);
-
-    Meteor.subscribe('Tweets',props.location.state.referrer);
+    console.log("suscribe");
+    const hashtag =props.location.state.referrer;
+    console.log(hashtag);
+    Meteor.subscribe('Tweets',hashtag);
     return {
         tweets: Tweets.find({}).fetch()
     };
