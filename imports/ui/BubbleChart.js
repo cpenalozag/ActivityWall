@@ -85,7 +85,7 @@ class BubbleChart extends Component {
             .text(function(d) { return d; });
 
         node.append("title")
-            .text((d) => { return d.screenname + "\n" + this.format(d.favs); });
+            .text((d) => { return d.screenname + "\n" + this.format(d.data.favs); });
 
     }
 
