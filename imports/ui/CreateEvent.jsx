@@ -13,20 +13,25 @@ class CreateEvent extends Component {
             colorBody: "#E9F2F2",
             redirect: false,
             hashtag: "",
+            socialNetwork: "T"
         };
         this.handleOnClick = this.handleOnClick.bind(this);
+        this.handleSNChange = this.handleSNChange.bind(this);
     }
-
 
     handleOnClick() {
         // Get user input
         const hashtag = this.refs.hashtag.value;
-        Meteor.call("tweets.stream", hashtag, (err, stream) => {
-            if (err) throw err;
-            console.log("tweet: ", stream);
-        });
+        Meteor.call("tweets.stream", hashtag);
         // then redirect
         this.setState({hashtag: hashtag, redirect: true});
+    }
+
+    handleSNChange(e) {
+        const val = e.target.value;
+        this.setState({
+            socialNetwork: val
+        })
     }
 
     next() {
@@ -52,7 +57,15 @@ class CreateEvent extends Component {
 
     render() {
         if (this.state.redirect) {
-            return <Redirect to={{pathname: "/wall", state: {referrer: this.state.hashtag}}}/>;
+            return <Redirect to={{
+                pathname: "/wall",
+                state: {
+                    hashtag: this.state.hashtag,
+                    background: this.state.colorBackground,
+                    title: this.state.colorTitle,
+                    body: this.state.colorBody
+                }
+            }}/>;
         }
         return (
 
@@ -80,8 +93,10 @@ class CreateEvent extends Component {
                                                 </div>
                                                 <div>
                                                     <p className="home-list"><strong
-                                                        className="light-blue">1.</strong> Customize your wall</p>
-                                                    <p className="description">Pick your colors, logo and background</p>
+                                                        className="light-blue">1.</strong> Customize your wall
+                                                    </p>
+                                                    <p className="description">Pick your colors, logo and background
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -92,11 +107,11 @@ class CreateEvent extends Component {
                                                 </div>
                                                 <div>
                                                     <p className="home-list"><strong
-                                                        className="light-blue">2.</strong> Pick
-                                                        the social
-                                                        networks</p>
+                                                        className="light-blue">2.</strong> Pick the social networks
+                                                    </p>
                                                     <p className="description">Choose if you want to follow what people
-                                                        are saying in Twitter, Instagram or both!</p>
+                                                        are saying in Twitter, Instagram or both!
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -107,9 +122,11 @@ class CreateEvent extends Component {
                                                 </div>
                                                 <div>
                                                     <p className="home-list"><strong
-                                                        className="light-blue">3.</strong> Define your search</p>
+                                                        className="light-blue">3.</strong> Define your search
+                                                    </p>
                                                     <p className="description">Tell us which hashtag to look for and the
-                                                        type of visualization you prefer</p>
+                                                        type of visualization you prefer
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -120,11 +137,11 @@ class CreateEvent extends Component {
                                                 </div>
                                                 <div>
                                                     <p className="home-list"><strong
-                                                        className="light-blue">4.</strong> Start using your wall</p>
+                                                        className="light-blue">4.</strong> Start using your wall
+                                                    </p>
                                                     <p className="description">See your users' interactions and analyse
-                                                        them
-                                                        through diagrams and
-                                                        statistics!</p>
+                                                        them through diagrams and statistics!
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -143,12 +160,12 @@ class CreateEvent extends Component {
                                         <div className="col-md-4">
                                             <p className="p-home">Body</p>
                                             <ColorPicker color={this.state.colorBody}
-                                                         onChangeComplete={this.handleChangeCompleteTitle.bind(this)}/>
+                                                         onChangeComplete={this.handleChangeCompleteBody.bind(this)}/>
                                         </div>
                                         <div className="col-md-4">
                                             <p className="p-home">Titles</p>
                                             <ColorPicker color={this.state.colorTitle}
-                                                         onChangeComplete={this.handleChangeCompleteBody.bind(this)}/>
+                                                         onChangeComplete={this.handleChangeCompleteTitle.bind(this)}/>
                                         </div>
                                     </div>
                                 </div>
@@ -158,9 +175,9 @@ class CreateEvent extends Component {
                                 <div className="container image-height">
                                     <div className="row side-pad icon-row">
                                         <div className="col-md-4">
-                                            <input
-                                                type="radio" name="sn"
-                                                id="twitter" className="input-hidden"/>
+                                            <input onChange={this.handleSNChange}
+                                                   value="T" type="radio" name="sn"
+                                                   id="twitter" className="input-hidden"/>
                                             <label htmlFor="twitter">
                                                 <img
                                                     className="img-responsive img-medium"
@@ -169,9 +186,9 @@ class CreateEvent extends Component {
                                             </label>
                                         </div>
                                         <div className="col-md-4">
-                                            <input
-                                                type="radio" name="sn"
-                                                id="ti" className="input-hidden"/>
+                                            <input onChange={this.handleSNChange}
+                                                   value="TI" type="radio" name="sn"
+                                                   id="ti" className="input-hidden"/>
                                             <label htmlFor="ti">
                                                 <img
                                                     className="img-responsive img-medium"
@@ -180,9 +197,9 @@ class CreateEvent extends Component {
                                             </label>
                                         </div>
                                         <div className="col-md-4">
-                                            <input
-                                                type="radio" name="sn"
-                                                id="instagram" className="input-hidden"/>
+                                            <input onChange={this.handleSNChange}
+                                                   value="I" type="radio" name="sn"
+                                                   id="instagram" className="input-hidden"/>
                                             <label htmlFor="instagram">
                                                 <img
                                                     className="img-responsive img-medium"
@@ -202,8 +219,10 @@ class CreateEvent extends Component {
                                                 <form className="form-inline" onSubmit={this.handleOnClick}>
                                                     <label className="hashtag" htmlFor="inlineFormInputName2"># </label>
                                                     <input type="text" className="form-control mb-2 mr-sm-2"
-                                                           id="inlineFormInputName2" placeholder="BadBunnyBeibe" ref="hashtag"/>
-                                                    <button type="submit" className="btn btn-primary mb-2">Search <i className="fa fa-search"/></button>
+                                                           id="inlineFormInputName2" placeholder="BadBunnyBeibe"
+                                                           ref="hashtag"/>
+                                                    <button type="submit" className="btn btn-primary mb-2">Search <i
+                                                        className="fa fa-search"/></button>
                                                 </form>
                                             </div>
                                         </div>
