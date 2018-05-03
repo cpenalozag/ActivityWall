@@ -6,8 +6,6 @@ import {SimpleSchema} from "simpl-schema/dist/SimpleSchema";
 export const Tweets = new Mongo.Collection("Tweets");
 
 
-let stream = null;
-
 if (Meteor.isServer) {
     Meteor.publish("Tweets", (hashtag) => {
         return Tweets.find({query: hashtag}, {sort: {date: -1}, limit: 30});
@@ -24,17 +22,14 @@ Meteor.methods({
             access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
             access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
         });
-        if (stream) {
-            stream.destroy();
-        }
         /**
          * Stream statuses filtered by keyword
          * number of tweets per second depends on topic popularity
          **/
-        stream = client.stream("statuses/filter", {track: '#'+hashtag}, (stream) => {
+        stream = client.stream("statuses/filter", {track: '#' + hashtag}, (stream) => {
             stream.on("data", Meteor.bindEnvironment(function (data) {
                 // Construct a new tweet object
-                const date = moment(data["created_at"], 'dd MMM DD HH:mm:ss ZZ YYYY', 'en').format('MMMM Do YYYY, h:mm:ss a');;
+                const date = moment(data["created_at"], 'dd MMM DD HH:mm:ss ZZ YYYY', 'en').format('MMMM Do YYYY, h:mm:ss a');
                 const tweet = {
                     query: hashtag,
                     twid: data["id"],
@@ -54,7 +49,6 @@ Meteor.methods({
                     date: {type: String},
                     screenname: {type: String},
                 }).validate(tweet);
-                console.log(tweet);
                 Tweets.insert(tweet);
                 setTimeout(() => stream.destroy(), 1000000);
             }));
@@ -63,7 +57,5 @@ Meteor.methods({
             }));
 
         });
-
-
     }
 });
