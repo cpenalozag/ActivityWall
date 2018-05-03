@@ -47,11 +47,11 @@ class BubbleChart extends Component {
 
         //const data = props.users;
         var root = d3.hierarchy({children: props.users})
-            .sum(function(d) { return d.conteo; })
+            .sum(function(d) { return d.favs; })
             .each(function(d) {
-                if (name = d.data.name) {
+                if (name = d.data.screenname) {
                     var name, i = name.lastIndexOf(".");
-                    d.name = name;
+                    d.screenname = name;
                     d.package = name.slice(0, i);
                     d.class = name.slice(i + 1);
                 }
@@ -66,17 +66,17 @@ class BubbleChart extends Component {
             .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
         node.append("circle")
-            .attr("id", function(d) { return d.name; })
+            .attr("id", function(d) { return d.screenname; })
             .attr("r", function(d) { return d.r; })
             .style("fill", (d) => { return this.color(d.package); });
 
         node.append("clipPath")
-            .attr("id", function(d) { return "clip-" + d.name; })
+            .attr("id", function(d) { return "clip-" + d.screenname; })
             .append("use")
-            .attr("xlink:href", function(d) { return "#" + d.name; });
+            .attr("xlink:href", function(d) { return "#" + d.screenname; });
 
         node.append("text")
-            .attr("clip-path", function(d) { return "url(#clip-" + d.name + ")"; })
+            .attr("clip-path", function(d) { return "url(#clip-" + d.screenname + ")"; })
             .selectAll("tspan")
             .data(function(d) { return d.class.split(/(?=[A-Z][^A-Z])/g); })
             .enter().append("tspan")
@@ -85,7 +85,7 @@ class BubbleChart extends Component {
             .text(function(d) { return d; });
 
         node.append("title")
-            .text((d) => { return d.name + "\n" + this.format(d.conteo); });
+            .text((d) => { return d.screenname + "\n" + this.format(d.favs); });
 
     }
 

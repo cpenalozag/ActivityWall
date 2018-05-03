@@ -3,6 +3,7 @@ import {Tweets} from "../api/tweets";
 import {withTracker} from 'meteor/react-meteor-data';
 import BubbleChart from "./BubbleChart.js";
 import {Users} from "../api/users.js";
+import {TweetsAgg} from "../api/tweetsAggregated.js";
 
 
 class Wall extends Component {
@@ -39,7 +40,7 @@ class Wall extends Component {
     }
 
     renderTweets() {
-        console.log(this.props.tweets);
+        console.log(this.props.rts);
         this.addUpdateUsers.bind(this);
         return this.props.tweets.map((tweet) => {
             return (
@@ -234,7 +235,7 @@ class Wall extends Component {
             <div style={{"background-color": this.props.background}}>
                 <div className="container">
                     <h1 style={{"color": this.props.title}}> Active Users </h1>
-                    <BubbleChart users={this.userList}/>
+                    <BubbleChart users={this.props.rts}/>
                 </div>
                 <div className="container">
 
@@ -257,10 +258,12 @@ export default withTracker((props) => {
     const body = props.location.state.body;
     Meteor.subscribe('Tweets', hashtag);
     Meteor.subscribe('Users');
+    Meteor.subscribe('MostRts',hashtag);
     return {
         tweets: Tweets.find({}).fetch(),
 
         users: Users.find({}).fetch(),
+        rts : TweetsAgg.find({}).fetch(),
 
         background: background,
         title: title,
