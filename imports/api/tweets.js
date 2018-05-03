@@ -10,7 +10,6 @@ let stream = null;
 
 if (Meteor.isServer) {
     Meteor.publish("Tweets", (hashtag) => {
-        console.log("query", hashtag);
         return Tweets.find({query: hashtag}, {sort: {date: -1}, limit: 30});
     });
 }
@@ -60,8 +59,7 @@ Meteor.methods({
                 setTimeout(() => stream.destroy(), 1000000);
             }));
             stream.on("error", Meteor.bindEnvironment(function (error) {
-                console.log("Error " + error);
-                //throw Meteor.Error(error);
+
             }));
 
         });

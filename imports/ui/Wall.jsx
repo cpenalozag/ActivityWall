@@ -76,11 +76,10 @@ class Wall extends Component {
 
     render() {
         return (
-            <div>
+            <div style={{"background-color": this.props.background}}>
                 <BubbleChart users={this.props.users}/>
-
                 <div className="container">
-                    <h1>Tweets</h1>
+                    <h1 style={{"color": this.props.title}}>{this.props.location.state.hashtag}</h1>
                     <div className="row">
 
                         {this.renderTweets()}
@@ -94,12 +93,20 @@ class Wall extends Component {
 
 //export default Wall;
 export default withTracker((props) => {
-    const hashtag = props.location.state.referrer;
+    const hashtag = props.location.state.hashtag;
+    const background = props.location.state.background;
+    const title = props.location.state.title;
+    const body = props.location.state.body;
     Meteor.subscribe('Tweets', hashtag);
     Meteor.subscribe('Users');
     return {
         tweets: Tweets.find({}).fetch(),
-        users: Users.find({}).fetch()
+
+        users: Users.find({}).fetch(),
+
+        background: background,
+        title: title,
+        body: body
     };
 })(Wall);
 
@@ -114,7 +121,7 @@ class Tweet extends Component {
                         <img className="tweet--user-avatar" src={this.props.tweet.avatar}
                              alt={`${this.props.screenname} profile picture`}/>
                         <div
-                            className="tweet--user-name">{this.props.tweet.author}<span>@{this.props.tweet.screenname}</span>
+                            className="tweet--user-name">{this.props.tweet.author}<span>{`@${this.props.tweet.screenname}`}</span>
                         </div>
                     </div>
                     <p className="tweet--body">{this.props.tweet.body}</p>
