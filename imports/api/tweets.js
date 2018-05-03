@@ -6,8 +6,6 @@ import {SimpleSchema} from "simpl-schema/dist/SimpleSchema";
 export const Tweets = new Mongo.Collection("Tweets");
 
 
-let stream = null;
-
 if (Meteor.isServer) {
     Meteor.publish("Tweets", (hashtag) => {
         return Tweets.find({query: hashtag}, {sort: {date: -1}, limit: 30});
@@ -24,9 +22,6 @@ Meteor.methods({
             access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
             access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
         });
-        if (stream) {
-            stream.destroy();
-        }
         /**
          * Stream statuses filtered by keyword
          * number of tweets per second depends on topic popularity
@@ -54,7 +49,6 @@ Meteor.methods({
                     date: {type: String},
                     screenname: {type: String},
                 }).validate(tweet);
-                console.log(tweet);
                 Tweets.insert(tweet);
                 setTimeout(() => stream.destroy(), 15000);
             }));
@@ -63,6 +57,5 @@ Meteor.methods({
 
             }));
         });
-
     }
 })
