@@ -93,8 +93,8 @@ class BubbleChart extends Component {
         return (
             <div className="bubbleChart">
                 <svg
-                    width="1000"
-                    height="500"
+                    width="1100"
+                    height="600"
                     ref={(svg) => this.svg = svg}>
                 </svg>
             </div>

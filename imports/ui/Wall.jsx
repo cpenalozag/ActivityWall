@@ -23,7 +23,7 @@ class Wall extends Component {
                 return user.name === usName;
             });
             console.log(user);
-            if (user.length>0) {
+            if (user.length > 0) {
                 Meteor.call("users.update", user, (err, tweet) => {
                     if (err) throw err;
                     console.log("tweet: ", err);
@@ -40,12 +40,165 @@ class Wall extends Component {
 
     renderTweets() {
         console.log(this.props.tweets);
+        this.addUpdateUsers.bind(this);
         return this.props.tweets.map((tweet) => {
             return (
                 <Tweet key={tweet._id} tweet={tweet}/>
             )
         });
     }
+
+    userList =
+        [{
+            "id": {
+                "$oid": "5aeaf4e0fc13ae6f650000a6"
+            },
+            "query": "Davey",
+            "name": "Audi",
+            "conteo": 34
+        }, {
+            "id": {
+                "$oid": "5aeaf4e0fc13ae6f650000a7"
+            },
+            "query": "Martha",
+            "name": "Micky",
+            "conteo": 151
+        }, {
+            "id": {
+                "$oid": "5aeaf4e0fc13ae6f650000a8"
+            },
+            "query": "Derron",
+            "name": "Northrup",
+            "conteo": 269
+        }, {
+            "id": {
+                "$oid": "5aeaf4e0fc13ae6f650000a9"
+            },
+            "query": "Reggie",
+            "name": "Rosanna",
+            "conteo": 57
+        }, {
+            "id": {
+                "$oid": "5aeaf4e0fc13ae6f650000aa"
+            },
+            "query": "Upton",
+            "name": "Ollie",
+            "conteo": 300
+        }, {
+            "id": {
+                "$oid": "5aeaf4e0fc13ae6f650000ab"
+            },
+            "query": "Cordula",
+            "name": "Kirbie",
+            "conteo": 175
+        }, {
+            "id": {
+                "$oid": "5aeaf4e0fc13ae6f650000ac"
+            },
+            "query": "Cary",
+            "name": "Romain",
+            "conteo": 263
+        }, {
+            "id": {
+                "$oid": "5aeaf4e0fc13ae6f650000ad"
+            },
+            "query": "Galven",
+            "name": "Hew",
+            "conteo": 166
+        }, {
+            "id": {
+                "$oid": "5aeaf4e0fc13ae6f650000ae"
+            },
+            "query": "Hadleigh",
+            "name": "Mag",
+            "conteo": 91
+        }, {
+            "id": {
+                "$oid": "5aeaf4e0fc13ae6f650000af"
+            },
+            "query": "Hyacinthie",
+            "name": "Christoper",
+            "conteo": 144
+        }, {
+            "id": {
+                "$oid": "5aeaf4e0fc13ae6f650000b0"
+            },
+            "query": "Emmanuel",
+            "name": "Christiana",
+            "conteo": 213
+        }, {
+            "id": {
+                "$oid": "5aeaf4e0fc13ae6f650000b1"
+            },
+            "query": "Reagen",
+            "name": "Boonie",
+            "conteo": 74
+        }, {
+            "id": {
+                "$oid": "5aeaf4e0fc13ae6f650000b2"
+            },
+            "query": "Darius",
+            "name": "Nels",
+            "conteo": 284
+        }, {
+            "id": {
+                "$oid": "5aeaf4e0fc13ae6f650000b3"
+            },
+            "query": "Link",
+            "name": "Mathilda",
+            "conteo": 277
+        }, {
+            "id": {
+                "$oid": "5aeaf4e0fc13ae6f650000b4"
+            },
+            "query": "Horace",
+            "name": "Eloisa",
+            "conteo": 209
+        }, {
+            "id": {
+                "$oid": "5aeaf4e0fc13ae6f650000b5"
+            },
+            "query": "Graehme",
+            "name": "Consolata",
+            "conteo": 196
+        }, {
+            "id": {
+                "$oid": "5aeaf4e0fc13ae6f650000b6"
+            },
+            "query": "Allyson",
+            "name": "Nadeen",
+            "conteo": 60
+        }, {
+            "id": {
+                "$oid": "5aeaf4e0fc13ae6f650000b7"
+            },
+            "query": "Kissee",
+            "name": "Ware",
+            "conteo": 265
+        }, {
+            "id": {
+                "$oid": "5aeaf4e0fc13ae6f650000b8"
+            },
+            "query": "Joanna",
+            "name": "Babette",
+            "conteo": 224
+        }, {
+            "id": {
+                "$oid": "5aeaf4e0fc13ae6f650000b9"
+            },
+            "query": "Risa",
+            "name": "Harlene",
+            "conteo": 84
+        }, {
+            "id": {
+                "$oid": "5aeaf4e0fc13ae6f650000ba"
+            },
+            "query": "Carlotta",
+            "name": "Jazmin",
+            "conteo": 137
+        },
+        ];
+
 
     /*componentWillUpdate(newProps) {
         i = 0;
@@ -77,7 +230,10 @@ class Wall extends Component {
     render() {
         return (
             <div style={{"background-color": this.props.background}}>
-                <BubbleChart users={this.props.users}/>
+                <div className="container">
+                    <h1 style={{"color": this.props.title}}> Active Users </h1>
+                    <BubbleChart users={this.userList}/>
+                </div>
                 <div className="container">
                     <h1 style={{"color": this.props.title}}>{this.props.location.state.hashtag}</h1>
                     <div className="row">
