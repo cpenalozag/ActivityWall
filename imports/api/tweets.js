@@ -30,7 +30,6 @@ Meteor.methods({
             stream.on("data", Meteor.bindEnvironment(function (data) {
                 // Construct a new tweet object
                 const date = moment(data["created_at"], 'dd MMM DD HH:mm:ss ZZ YYYY', 'en').format('MMMM Do YYYY, h:mm:ss a');
-                ;
                 const tweet = {
                     query: hashtag,
                     twid: data["id"],

@@ -27,19 +27,17 @@ Meteor.methods({
             access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
         });
         /**
-         * Stream statuses filtered by keyword
-         * number of tweets per second depends on topic popularity
+         * Searches tweets filtered by keyword
          **/
-        client.get('search/tweets', {q: `#${hashtag}`, result_type: "popular", count: 30, include_entities:true}, function(error, list, response) {
-            const tweets = Array.from(Object.values(list));
-            tweets.forEach(function(t) {
-                console.log(t);
+        client.get('search/tweets', {q: `#${hashtag}`, result_type: "popular", count: 10, include_entities:true}, Meteor.bindEnvironment(function(error, list, response) {
+            const tweets  = Object.values(list["statuses"]);
+            tweets.forEach (Meteor.bindEnvironment(function(t) {
                 const tweet = {
                     query: hashtag,
-                    twid: {type: Number},
+                    twid: t["id"],
                     rts: t["retweet_count"],
                     favs: t["favorite_count"],
-                    screenname: data["user"]["screen_name"]
+                    screenname: t["user"]["screen_name"]
                 }
                 new SimpleSchema({
                     query: {type: String},
@@ -48,8 +46,8 @@ Meteor.methods({
                     favs: {type: Number},
                     screenname: {type: String},
                 }).validate(tweet);
-                Tweets.insert(tweet);
-            });
-        });
+                TweetsAgg.insert(tweet);
+            }));
+        }));
     }
 })
