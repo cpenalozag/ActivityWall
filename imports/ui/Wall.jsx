@@ -227,6 +227,8 @@ class Wall extends Component {
         }
     }*/
 
+    //<h1 style={{"color": this.props.title}}>{this.props.location.state.hashtag}</h1>
+
     render() {
         return (
             <div style={{"background-color": this.props.background}}>
@@ -235,7 +237,7 @@ class Wall extends Component {
                     <BubbleChart users={this.userList}/>
                 </div>
                 <div className="container">
-                    <h1 style={{"color": this.props.title}}>{this.props.location.state.hashtag}</h1>
+
                     <div className="row">
 
                         {this.renderTweets()}
