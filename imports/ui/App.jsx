@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import {Meteor} from 'meteor/meteor';
 import { Switch, Route } from 'react-router-dom'
 
 import CreateEvent from "./CreateEvent";
@@ -15,7 +14,7 @@ class App extends Component {
         return (
             <Switch>
                 <Route exact path='/' component={CreateEvent}/>
-                <Route path='/wall' component={Wall}/>
+                <Route exact path='/wall' component={Wall}/>
             </Switch>
         );
     }

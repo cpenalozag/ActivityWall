@@ -10,11 +10,6 @@ class Wall extends Component {
         this.state = {};
     }
 
-    componentDidMount() {
-        //var hash = this.props.location.state.referrer;
-        //Meteor.call("tweets.stream", hash);
-    }
-
     renderTweets() {
         console.log(this.props.tweets);
         return this.props.tweets.map((tweet) => (
@@ -32,8 +27,6 @@ class Wall extends Component {
                     <div className="row">
                         {this.renderTweets()}
                     </div>
-
-
                 </div>
             </div>
         );
@@ -42,9 +35,7 @@ class Wall extends Component {
 
 //export default Wall;
 export default withTracker((props) => {
-    console.log("suscribe");
     const hashtag = props.location.state.referrer;
-    console.log(hashtag);
     Meteor.subscribe('Tweets', hashtag);
     return {
         tweets: Tweets.find({}).fetch()
@@ -59,21 +50,13 @@ class Tweet extends Component {
                     <a href="#" className="follow"><i className="fa fa-twitter"></i>Follow</a>
 
                     <div className="tweet--user">
-                        <img className="tweet--user-avatar" src={this.props.tweet.author} alt=""/>
+                        <img className="tweet--user-avatar" src={this.props.tweet.avatar} alt={`${this.props.screenname} profile picture` }/>
                         <div
                             className="tweet--user-name">{this.props.tweet.author}<span>@{this.props.tweet.screenname}</span>
                         </div>
                     </div>
                     <p className="tweet--body">{this.props.tweet.body}</p>
                     <div className="tweet--time">{this.props.tweet.date}</div>
-
-                    <div className="tweet--actions">
-                        <i className="fa fa-ellipsis-h"></i>
-                        <i className="fa fa-heart"></i>
-                        <i className="fa fa-retweet"></i>
-                        <i className="fa fa-reply"></i>
-                        <span>2 retweets</span>
-                    </div>
                 </div>
             </div>
         );

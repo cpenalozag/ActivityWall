@@ -17,5 +17,8 @@
     "react-router-dom": "^4.2.2",
     "simpl-schema": "^1.5.0",
     "twitter": "^1.7.1"
+  },
+  "devDependencies": {
+    "@types/d3": "^5.0.0"
   }
 }

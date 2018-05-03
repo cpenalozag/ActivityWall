@@ -6,18 +6,17 @@ import {SimpleSchema} from "simpl-schema/dist/SimpleSchema";
 export const Tweets = new Mongo.Collection("Tweets");
 
 
-let stream =null;
+let stream = null;
 
 if (Meteor.isServer) {
     Meteor.publish("Tweets", (hashtag) => {
         console.log("query", hashtag);
-        return Tweets.find({query: hashtag});
+        return Tweets.find({query: hashtag}, {sort: {date: -1}, limit: 30});
     });
 }
 
 Meteor.methods({
     "tweets.stream"(hashtag) {
-        console.log("inserting tweets")
         check(hashtag, String);
         var Twitter = require("twitter");
         var client = new Twitter({
@@ -26,27 +25,24 @@ Meteor.methods({
             access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
             access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
         });
-        if(stream){
-            console.log("Stopping previous stream");
+        if (stream) {
             stream.destroy();
-            // Remove all the tweets
-            Tweets.remove({});
         }
         /**
          * Stream statuses filtered by keyword
          * number of tweets per second depends on topic popularity
          **/
-        console.log("reinserting");
-        client.stream("statuses/filter", {track: `#@hashtag`},  (stream)=> {
+        client.stream("statuses/filter", {track: `#${hashtag}`}, (stream) => {
             stream.on("data", Meteor.bindEnvironment(function (data) {
                 // Construct a new tweet object
+                const date = moment(data["created_at"], 'dd MMM DD HH:mm:ss ZZ YYYY', 'en').format('MMMM Do YYYY, h:mm:ss a');;
                 const tweet = {
                     query: hashtag,
                     twid: data["id"],
                     author: data["user"]["name"],
                     avatar: data["user"]["profile_image_url"],
                     body: data["text"],
-                    date: data["created_at"],
+                    date: date,
                     screenname: data["user"]["screen_name"]
                 };
 
@@ -61,7 +57,7 @@ Meteor.methods({
                 }).validate(tweet);
                 console.log(tweet);
                 Tweets.insert(tweet);
-
+                setTimeout(() => stream.destroy(), 15000);
             }));
 
             stream.on("error", Meteor.bindEnvironment(function (error) {

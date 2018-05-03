@@ -1,6 +1,5 @@
 import React, {Component} from "react";
-import {Redirect} from 'react-router';
-import ReactDOM from 'react-dom';
+import {Redirect} from "react-router-dom";
 
 import ColorPicker from "./ColorPicker";
 
@@ -12,42 +11,32 @@ class CreateEvent extends Component {
             colorBackground: "#040408",
             colorTitle: "#00aced",
             colorBody: "#E9F2F2",
-            arrowEnabled: true,
-            hashtag: ""
+            redirect: false,
+            hashtag: "",
         };
+        this.handleOnClick = this.handleOnClick.bind(this);
     }
 
 
-    handleOnClick(evt){
-        if(evt.key!=="Enter"){
-            return;
-        }
-        const hash = ReactDOM.findDOMNode(this.refs.hashtag).value.trim();
-
-        console.log("click ",evt.target.value);
-        //Meteor.call("tweets.stream",evt.target.value);
-        Meteor.call("tweets.stream", evt.target.value, (err, stream) => {
+    handleOnClick() {
+        // Get user input
+        const hashtag = this.refs.hashtag.value;
+        Meteor.call("tweets.stream", hashtag, (err, stream) => {
             if (err) throw err;
             console.log("tweet: ", stream);
         });
-
-        // Get user input
         // then redirect
-
-        this.setState({hashtag: evt.target.value, redirect: true});
+        this.setState({hashtag: hashtag, redirect: true});
     }
 
     next() {
-        this.setState({currentTab: this.state.currentTab + 1, arrowEnabled: false});
-        console.log(this.state);
-        setTimeout(this.setState({arrowEnabled: true}), 3000);
-        console.log(this.state);
+        this.setState({currentTab: this.state.currentTab + 1});
+        //setTimeout(this.setState({arrowEnabled: true}), 500);
     }
 
     prev() {
         this.setState({currentTab: this.state.currentTab - 1});
     }
-
 
     handleChangeCompleteBackground = (color) => {
         this.setState({colorBackground: color.hex});
@@ -63,7 +52,7 @@ class CreateEvent extends Component {
 
     render() {
         if (this.state.redirect) {
-            return <Redirect to={{pathname: "/Wall", state: {referrer: this.state.hashtag}}}/>;
+            return <Redirect to={{pathname: "/wall", state: {referrer: this.state.hashtag}}}/>;
         }
         return (
 
@@ -210,11 +199,11 @@ class CreateEvent extends Component {
                                     <div className="container">
                                         <div className="row side-pad">
                                             <div className="row-pickers">
-                                                <form className="form-inline">
+                                                <form className="form-inline" onSubmit={this.handleOnClick}>
                                                     <label className="hashtag" htmlFor="inlineFormInputName2"># </label>
                                                     <input type="text" className="form-control mb-2 mr-sm-2"
                                                            id="inlineFormInputName2" placeholder="BadBunnyBeibe" ref="hashtag"/>
-                                                    <button onClick={this.handleOnClick} type="submit" className="btn btn-primary mb-2">Submit</button>
+                                                    <button type="submit" className="btn btn-primary mb-2">Search <i className="fa fa-search"/></button>
                                                 </form>
                                             </div>
                                         </div>
@@ -224,7 +213,7 @@ class CreateEvent extends Component {
 
                             </div>
                         </div>
-                        {this.state.currentTab !== 0 && this.state.arrowEnabled ?
+                        {this.state.currentTab !== 0 ?
                             <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button"
                                onClick={this.prev.bind(this)}
                                data-slide="prev">
@@ -232,7 +221,7 @@ class CreateEvent extends Component {
                                 <span className="sr-only">Previous</span>
                             </a> :
                             ""}
-                        {this.state.currentTab !== 3 && this.state.arrowEnabled ?
+                        {this.state.currentTab !== 3 ?
                             <a className="carousel-control-next" href="#carouselExampleIndicators" role="button"
                                onClick={this.next.bind(this)}
                                data-slide="next">
