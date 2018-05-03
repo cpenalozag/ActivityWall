@@ -32,7 +32,7 @@ Meteor.methods({
          * Stream statuses filtered by keyword
          * number of tweets per second depends on topic popularity
          **/
-        client.stream("statuses/filter", {track: `#${hashtag}`}, (stream) => {
+        stream = client.stream("statuses/filter", {track: '#'+hashtag}, (stream) => {
             stream.on("data", Meteor.bindEnvironment(function (data) {
                 // Construct a new tweet object
                 const date = moment(data["created_at"], 'dd MMM DD HH:mm:ss ZZ YYYY', 'en').format('MMMM Do YYYY, h:mm:ss a');;
@@ -57,14 +57,15 @@ Meteor.methods({
                 }).validate(tweet);
                 console.log(tweet);
                 Tweets.insert(tweet);
-                setTimeout(() => stream.destroy(), 15000);
+                setTimeout(() => stream.destroy(), 1000000);
             }));
-
             stream.on("error", Meteor.bindEnvironment(function (error) {
                 console.log("Error " + error);
                 //throw Meteor.Error(error);
             }));
+
         });
 
+
     }
-})
+});

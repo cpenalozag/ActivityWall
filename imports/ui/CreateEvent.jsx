@@ -23,7 +23,7 @@ class CreateEvent extends Component {
         const hashtag = this.refs.hashtag.value;
         Meteor.call("tweets.stream", hashtag, (err, stream) => {
             if (err) throw err;
-            console.log("tweet: ", stream);
+            console.log("tweet: ", err);
         });
         // then redirect
         this.setState({hashtag: hashtag, redirect: true});

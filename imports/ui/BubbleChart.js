@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import * as d3 from "d3";
+import { scaleOrdinal, schemeCategory20c } from 'd3-scale';
 import {Meteor} from 'meteor/meteor';
 import {Switch, Route} from 'react-router-dom'
 
@@ -12,89 +13,79 @@ class BubbleChart extends Component {
         this.state = {};
     }
 
-    componentDidMount() {
+    componentDidMount(){
 
-        var svg = d3.select(this.svg),
-            width = +svg.attr("width"),
-            height = +svg.attr("height");
+        const svg = d3.select(this.svg);
+        this.width = +svg.attr("width");
+        this.height = +svg.attr("height");
 
-        var format = d3.format(",d");
+        this.format = d3.format(",d");
 
-        var color = d3.scaleOrdinal(d3.schemeCategory20c);
+        this.color = d3.scaleOrdinal(d3.schemeCategory20c);
 
-        var pack = d3.pack()
-            .size([width, height])
+        this.pack = d3.pack()
+            .size([this.width, this.height])
             .padding(1.5);
 
-        d3.csv("http://localhost:3000/flare.csv", function (d) {
-            d.value = +d.value;
-            if (d.value) return d;
-        }, function (error, classes) {
-            if (error) throw error;
 
-            var root = d3.hierarchy({children: classes})
-                .sum(function (d) {
-                    return d.value;
-                })
-                .each(function (d) {
-                    if (id = d.data.id) {
-                        var id, i = id.lastIndexOf(".");
-                        d.id = id;
-                        d.package = id.slice(0, i);
-                        d.class = id.slice(i + 1);
-                    }
-                });
+        this.update(this.props);
 
-            var node = svg.selectAll(".node")
-                .data(pack(root).leaves())
-                .enter().append("g")
-                .attr("class", "node")
-                .attr("transform", function (d) {
-                    return "translate(" + d.x + "," + d.y + ")";
-                });
+    }
 
-            node.append("circle")
-                .attr("id", function (d) {
-                    return d.id;
-                })
-                .attr("r", function (d) {
-                    return d.r;
-                })
-                .style("fill", function (d) {
-                    return color(d.package);
-                });
+    componentWillUpdate(newProps){
 
-            node.append("clipPath")
-                .attr("id", function (d) {
-                    return "clip-" + d.id;
-                })
-                .append("use")
-                .attr("xlink:href", function (d) {
-                    return "#" + d.id;
-                });
+        this.update(newProps);
+    }
 
-            node.append("text")
-                .attr("clip-path", function (d) {
-                    return "url(#clip-" + d.id + ")";
-                })
-                .selectAll("tspan")
-                .data(function (d) {
-                    return d.class.split(/(?=[A-Z][^A-Z])/g);
-                })
-                .enter().append("tspan")
-                .attr("x", 0)
-                .attr("y", function (d, i, nodes) {
-                    return 13 + (i - nodes.length / 2 - 0.5) * 10;
-                })
-                .text(function (d) {
-                    return d;
-                });
+    update (props){
 
-            node.append("title")
-                .text(function (d) {
-                    return d.id + "\n" + format(d.value);
-                });
-        });
+
+        console.log("Update", props);
+        console.log("State", this.svg);
+
+        if (!props.users || props.users.length === 0) return ;
+
+        //const data = props.users;
+        var root = d3.hierarchy({children: props.users})
+            .sum(function(d) { return d.conteo; })
+            .each(function(d) {
+                if (name = d.data.name) {
+                    var name, i = name.lastIndexOf(".");
+                    d.name = name;
+                    d.package = name.slice(0, i);
+                    d.class = name.slice(i + 1);
+                }
+            });
+
+        var svg = d3.select(this.svg);
+
+        var node = svg.selectAll(".node")
+            .data(this.pack(root).leaves())
+            .enter().append("g")
+            .attr("class", "node")
+            .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+        node.append("circle")
+            .attr("id", function(d) { return d.name; })
+            .attr("r", function(d) { return d.r; })
+            .style("fill", (d) => { return this.color(d.package); });
+
+        node.append("clipPath")
+            .attr("id", function(d) { return "clip-" + d.name; })
+            .append("use")
+            .attr("xlink:href", function(d) { return "#" + d.name; });
+
+        node.append("text")
+            .attr("clip-path", function(d) { return "url(#clip-" + d.name + ")"; })
+            .selectAll("tspan")
+            .data(function(d) { return d.class.split(/(?=[A-Z][^A-Z])/g); })
+            .enter().append("tspan")
+            .attr("x", 0)
+            .attr("y", function(d, i, nodes) { return 13 + (i - nodes.length / 2 - 0.5) * 10; })
+            .text(function(d) { return d; });
+
+        node.append("title")
+            .text((d) => { return d.name + "\n" + this.format(d.conteo); });
 
     }
 
@@ -102,8 +93,8 @@ class BubbleChart extends Component {
         return (
             <div className="bubbleChart">
                 <svg
-                    width="800"
-                    height="300"
+                    width="1000"
+                    height="500"
                     ref={(svg) => this.svg = svg}>
                 </svg>
             </div>
