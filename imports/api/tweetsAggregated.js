@@ -29,7 +29,8 @@ Meteor.methods({
         /**
          * Searches tweets filtered by keyword
          **/
-        client.get('search/tweets', {q: `#${hashtag}`, result_type: "popular", count: 10, include_entities:true}, Meteor.bindEnvironment(function(error, list, response) {
+        client.get('search/tweets', {q: `#${hashtag}`, result_type: "popular", count: 100, include_entities:true}, Meteor.bindEnvironment(function(error, list, response) {
+            TweetsAgg.remove({});
             const tweets  = Object.values(list["statuses"]);
             tweets.forEach (Meteor.bindEnvironment(function(t) {
                 const tweet = {

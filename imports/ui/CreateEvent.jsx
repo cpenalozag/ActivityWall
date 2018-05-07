@@ -147,6 +147,11 @@ class CreateEvent extends Component {
                                             </div>
                                         </div>
                                     </div>
+                                    <div>
+                                        <p className="p-home">
+                                            Get started by clicking the arrow on the right!
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                             <div className="carousel-item">
@@ -219,7 +224,7 @@ class CreateEvent extends Component {
                                             <div className="row-pickers">
                                                 <form className="form-inline" onSubmit={this.handleOnClick}>
                                                     <label className="hashtag" htmlFor="inlineFormInputName2"># </label>
-                                                    <input type="text" className="form-control mb-2 mr-sm-2"
+                                                    <input type="text" className="form-control mb-2 mr-sm-2" required="required"
                                                            id="inlineFormInputName2" placeholder="BadBunnyBeibe"
                                                            ref="hashtag"/>
                                                     <button type="submit" className="btn btn-primary mb-2">Search <i

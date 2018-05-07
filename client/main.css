@@ -90,6 +90,10 @@ h3 {
 .icon-row {
     margin-top: 15vh;
 }
+.carousel-control-next-icon, .carousel-control-prev-icon {
+    width: 5vmax !important;
+    height: 6vmax !important;
+}
 .row-pickers {
     margin: auto !important;
 }
@@ -202,6 +206,7 @@ input[type=radio]:checked + label>img {
     border-radius: 5px;
     max-width: 500px;
     background: white;
+    box-sizing: content-box;
 }
 .tweet .follow {
     display: block;

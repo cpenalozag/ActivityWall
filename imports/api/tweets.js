@@ -50,7 +50,7 @@ Meteor.methods({
                     screenname: {type: String},
                 }).validate(tweet);
                 Tweets.insert(tweet);
-                setTimeout(() => stream.destroy(), 1000000);
+                setTimeout(() => stream.destroy(), 5000);
             }));
             stream.on("error", Meteor.bindEnvironment(function (error) {
 
