@@ -85,7 +85,6 @@ class Wall extends Component {
             <div style={{"background-color": this.props.background}}>
                 <div className="container">
                     <h1 style={{"color": this.props.title}}> Active Users </h1>
-                    <CanvasWall rts={this.props.rts}/>
                     <BubbleChart users={this.props.rts}/>
 
                 </div>
