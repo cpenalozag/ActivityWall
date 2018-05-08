@@ -4,11 +4,15 @@ import {check} from "meteor/check";
 import {SimpleSchema} from "simpl-schema/dist/SimpleSchema";
 
 export const Tweets = new Mongo.Collection("Tweets");
+export const StreamUsers = new Mongo.Collection("StreamUsers");
 
 
 if (Meteor.isServer) {
     Meteor.publish("Tweets", (hashtag) => {
         return Tweets.find({query: hashtag}, {sort: {date: -1}, limit: 30});
+    });
+    Meteor.publish("StreamUsers", (hashtag) => {
+        return StreamUsers.find({query: hashtag});
     });
 }
 
@@ -50,6 +54,22 @@ Meteor.methods({
                     screenname: {type: String},
                 }).validate(tweet);
                 Tweets.insert(tweet);
+                res = StreamUsers.find({screenname:tweet.screenname}).fetch();
+
+                if(res.length>0){
+                    let user = res[0];
+                    StreamUsers.update(user._id, {
+                        $set: { count:user.count+1},});
+                }
+                else{
+                    const userInsert = {
+                        query: tweet.query,
+                        screenname: tweet.screenname,
+                        count: 1
+                    };
+                    StreamUsers.insert(userInsert);
+                }
+
                 setTimeout(() => stream.destroy(), 10000);
             }));
             stream.on("error", Meteor.bindEnvironment(function (error) {

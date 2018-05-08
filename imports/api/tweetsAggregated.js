@@ -2,8 +2,6 @@ import {Mongo} from "meteor/mongo";
 import {Meteor} from "meteor/meteor";
 import {check} from "meteor/check";
 import {SimpleSchema} from "simpl-schema/dist/SimpleSchema";
-import {Tweets} from "./tweets";
-import {Users} from "./users.js";
 
 export const TweetsAgg = new Mongo.Collection("TweetsAgg");
 
@@ -52,30 +50,6 @@ Meteor.methods({
                     screenname: {type: String},
                 }).validate(tweet);
                 TweetsAgg.insert(tweet);
-                /*Insert user*/
-                //console.log("find/update/insert user");
-                res = Users.find({name:tweet.username}).fetch();
-                //console.log(res);
-                if(res.length>0){
-                    var cont = res.conteo;
-                    //console.log("cont", cont);
-                    const userUpdate = {
-                        query: tweet.query,
-                        name: tweet.screenname,
-                        conteo: res.conteo + 1
-                    };
-                    //console.log("userUpdate");
-                    Users.update({name:res.name}, userUpdate);
-                }
-                else{
-                    const userInsert = {
-                        query: tweet.query,
-                        name: tweet.screenname,
-                        conteo: 1
-                    };
-                    //console.log("userInsert");
-                    Users.insert(userInsert);
-                }
             }));
         }));
     }

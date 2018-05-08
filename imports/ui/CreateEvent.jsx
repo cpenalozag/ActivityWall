@@ -13,7 +13,8 @@ class CreateEvent extends Component {
             colorBody: "#E9F2F2",
             redirect: false,
             hashtag: "",
-            socialNetwork: "T"
+            socialNetwork: "T",
+            arrowEnabled: true
         };
         this.handleOnClick = this.handleOnClick.bind(this);
         this.handleSNChange = this.handleSNChange.bind(this);

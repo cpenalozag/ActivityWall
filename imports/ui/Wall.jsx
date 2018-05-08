@@ -114,7 +114,7 @@ export default withTracker((props) => {
     Meteor.subscribe('Users');
     Meteor.subscribe('MostRts', hashtag);
     return {
-        tweets: Tweets.find({}).fetch(),
+        tweets: Tweets.find({}, {sort: {date: -1}, limit: 30}).fetch(),
 
         users: Users.find({}).fetch(),
         rts: TweetsAgg.find({}).fetch(),
