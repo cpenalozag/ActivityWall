@@ -7,7 +7,7 @@ class CanvasWall extends Component {
         super(props);
         this.state = {
         };
-        console.log(props);
+        //console.log(props);
     }
 
 

@@ -24,24 +24,24 @@ class Wall extends Component {
             user = this.props.users.filter((user) => {
                 return user.name === usName;
             });
-            console.log(user);
+            //console.log(user);
             if (user.length > 0) {
                 Meteor.call("users.update", user, (err, tweet) => {
                     if (err) throw err;
-                    console.log("tweet: ", err);
+                    //console.log("tweet: ", err);
                 })
             }
             else {
                 Meteor.call("users.insert", tweet, (err, tweet) => {
                     if (err) throw err;
-                    console.log("tweet: ", err);
+                    //console.log("tweet: ", err);
                 });
             }
         }
     }
 
     renderTweets() {
-        console.log(this.props.rts);
+        //console.log(this.props.rts);
         //this.addUpdateUsers.bind(this);
         return this.props.tweets.map((tweet) => {
             return (

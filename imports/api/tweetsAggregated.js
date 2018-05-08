@@ -55,7 +55,7 @@ Meteor.methods({
                 /*Insert user*/
                 //console.log("find/update/insert user");
                 res = Users.find({name:tweet.username}).fetch();
-                console.log(res);
+                //console.log(res);
                 if(res.length>0){
                     var cont = res.conteo;
                     //console.log("cont", cont);

@@ -40,8 +40,8 @@ class BubbleChart extends Component {
     update (props){
 
 
-        console.log("Update", props);
-        console.log("State", this.svg);
+        //console.log("Update", props);
+        //console.log("State", this.svg);
 
         if (!props.users || props.users.length === 0) return ;
 
