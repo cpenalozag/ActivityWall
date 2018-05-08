@@ -85,6 +85,7 @@ class Wall extends Component {
                 <div className="row">
                     <div className="col-md-2 ">
                         <h1 style={{"color": this.props.title}}> Active Users </h1>
+                        <canvas drawable ></canvas>
                         <BarChart/>
                     </div>
                     <div className="col-md-10 ">
