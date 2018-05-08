@@ -6,20 +6,20 @@ import {SimpleSchema} from "simpl-schema/dist/SimpleSchema";
 export const Users = new Mongo.Collection("Users");
 
 if (Meteor.isServer) {
-    Meteor.publish("Users", () => {
-        return Users.find({});
+    Meteor.publish("Users", (user) => {
+        return Users.find({name:user});
     });
 }
 
 Meteor.methods({
-    "users.insert"(tweet) {
+    /*"users.insert"(tweet) {
         console.log("inserting user");
         //userInstance = Users.find({name:tweet.author}).fetch();
         //console.log("ser", userInstance);
         //if(!userInstance) {
             const user = {
                 query: tweet.query,
-                name: tweet.author,
+                name: tweet.screenname,
                 conteo: 0
             };
             new SimpleSchema({
@@ -31,16 +31,28 @@ Meteor.methods({
             Users.insert(user);
         //}
     },
-    "users.update"(user){
-        check(user[0].name, String);
-        console.log("update user");
-        const userUpdate = {
-            query: user[0].query,
-            name: user[0].name,
-            conteo: user[0].conteo + 1
-        };
-        console.log(userUpdate);
-        Users.update({name:user[0].name}, userUpdate);
+    /*"users.update"(tweet){
+        console.log("find/update/insert user");
+        res = Users.find({name:tweet.username}).fetch();
+        console.log(res);
+        if(res.length>0){
+            const userUpdate = {
+                query: tweet.query,
+                name: tweet.screenname,
+                conteo: res.conteo + 1
+            };
+            console.log("userUpdate");
+            Users.update({name:res.name}, userUpdate);
+        }
+        else{
+            const userInsert = {
+                query: tweet.query,
+                name: tweet.screenname,
+                conteo: 1
+            };
+            console.log("userInsert");
+            Users.insert(userInsert);
+        }
 
-    }
+    },*/
 });

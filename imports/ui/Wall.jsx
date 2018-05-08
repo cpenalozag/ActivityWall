@@ -4,8 +4,7 @@ import {withTracker} from 'meteor/react-meteor-data';
 import BubbleChart from "./BubbleChart.js";
 import {Users} from "../api/users.js";
 import {TweetsAgg} from "../api/tweetsAggregated.js";
-import CanvasWall from "./CanvasWall.jsx";
-
+import BarChart from "./BarChart.jsx";
 
 
 class Wall extends Component {
@@ -43,7 +42,7 @@ class Wall extends Component {
 
     renderTweets() {
         console.log(this.props.rts);
-        this.addUpdateUsers.bind(this);
+        //this.addUpdateUsers.bind(this);
         return this.props.tweets.map((tweet) => {
             return (
                 <Tweet key={tweet._id} tweet={tweet}/>
@@ -83,19 +82,22 @@ class Wall extends Component {
     render() {
         return (
             <div style={{"background-color": this.props.background}}>
-                <div className="container">
-                    <h1 style={{"color": this.props.title}}> Active Users </h1>
-                    <BubbleChart users={this.props.rts}/>
+                <div className="row">
+                    <div className="col-md-2 ">
+                        <h1 style={{"color": this.props.title}}> Active Users </h1>
+                        <BarChart/>
+                    </div>
+                    <div className="col-md-10 ">
+                        <div className="row">
 
-                </div>
-                <div className="container">
+                            {this.renderTweets()}
 
-                    <div className="row">
-
-                        {this.renderTweets()}
+                        </div>
 
                     </div>
+
                 </div>
+
             </div>
         );
     }
@@ -109,12 +111,12 @@ export default withTracker((props) => {
     const body = props.location.state.body;
     Meteor.subscribe('Tweets', hashtag);
     Meteor.subscribe('Users');
-    Meteor.subscribe('MostRts',hashtag);
+    Meteor.subscribe('MostRts', hashtag);
     return {
         tweets: Tweets.find({}).fetch(),
 
         users: Users.find({}).fetch(),
-        rts : TweetsAgg.find({}).fetch(),
+        rts: TweetsAgg.find({}).fetch(),
 
         background: background,
         title: title,
@@ -125,7 +127,7 @@ export default withTracker((props) => {
 class Tweet extends Component {
     render() {
         return (
-            <div className="col-md-6">
+            <div className="col-md-4">
                 <div className="tweet">
                     <a href="#" className="follow"><i className="fa fa-twitter"></i>Follow</a>
 

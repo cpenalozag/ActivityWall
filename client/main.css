@@ -204,7 +204,7 @@ input[type=radio]:checked + label>img {
     border: 1px solid #eee;
     padding: 25px 50px;
     border-radius: 5px;
-    max-width: 500px;
+    max-width: 400px;
     background: white;
     box-sizing: content-box;
 }
