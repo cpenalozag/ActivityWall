@@ -97,6 +97,10 @@ h3 {
 .row-pickers {
     margin: auto !important;
 }
+.wall-background {
+    padding-top: 10%;
+    min-height: 100vh;
+}
 
 /* Style for small screens*/
 @media all and (max-width: 1000px)
@@ -200,11 +204,11 @@ input[type=radio]:checked + label>img {
 
 /* Style for tweets*/
 .tweet {
-    margin: 3vh auto;
+    margin: 2vh auto;
     border: 1px solid #eee;
-    padding: 25px 50px;
+    padding: 8% 8%;
     border-radius: 5px;
-    max-width: 400px;
+    max-width: 90%;
     background: white;
     box-sizing: content-box;
 }

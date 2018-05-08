@@ -2,7 +2,7 @@ import {Meteor} from 'meteor/meteor';
 import {Inject} from "meteor/meteorhacks:inject-initial";
 
 import "../imports/api/tweets"
-import "../imports/api/users.js";
+import "../imports/api/streamUsers.js";
 import "../imports/api/tweetsAggregated.js";
 
 Meteor.startup(() => {

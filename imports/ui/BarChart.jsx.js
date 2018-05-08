@@ -13,15 +13,8 @@ export default class BarChart extends Component {
 
 
     componentDidMount() {
-        let myData = [
-                {user: "prueba1", tweets: 100},
-                {user: "prueba2", tweets: 60},
-                {user: "prueba3", tweets: 50},
-                {user: "prueba4", tweets: 20},
-                {user: "prueba5", tweets: 10},
-                {user: "prueba6", tweets: 5},
-
-            ],
+        console.log(this.props);
+        let myData = this.props.data,
             margin = {top: 40, bottom: 30, left: 40, right: 20},
             width = "300",
             height = "140",
@@ -35,14 +28,6 @@ export default class BarChart extends Component {
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        /*let tip = tip()
-            .attr("class", "d3-tip")
-            .offset([-10, 0])
-            .html(function (d) {
-                return "<strong> data: </strong> <span style='color:red'>" + d.tweets + "</span>";
-            });
-
-        chart.call(tip);*/
 
         let xAxis = chart.append("a")
             .attr("class", "x axis")
@@ -55,8 +40,8 @@ export default class BarChart extends Component {
             .range([height,0]);
 
         function update(myData) {
-            xScale.domain([0,d3.max(myData,function(d){return d.tweets})]);
-            yScale.domain(myData.map(function(d){return d.tweets}));
+            xScale.domain([0,d3.max(myData,function(d){return d.count})]);
+            yScale.domain(myData.map(function(d){return d.count}));
 
             let ps = chart.selectAll("rect")
                 .data(myData);
@@ -65,16 +50,16 @@ export default class BarChart extends Component {
                 .append("rect")
                 .merge(ps)
                 .text((d) => {
-                    return d.user;
+                    return d.screenname;
                 })
-                .style("fill", (d)=>{return color(d.tweets)})
+                .style("fill", (d)=>{return color(d.count)})
                 .attr("x", 0)
                 .attr("y", function (d, i) {
                     return i * (barHeight + 1);
                 })
                 .attr("height", barHeight)
                 .attr("width", (d) => {
-                    return xScale(d.tweets);
+                    return xScale(d.count);
                 });
                 /*.on("mouserover", tip.show)
                 .on("mouseout", tip.hide);*/

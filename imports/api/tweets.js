@@ -2,17 +2,16 @@ import {Mongo} from "meteor/mongo";
 import {Meteor} from "meteor/meteor";
 import {check} from "meteor/check";
 import {SimpleSchema} from "simpl-schema/dist/SimpleSchema";
+import {StreamUsers} from "./streamUsers";
+
 
 export const Tweets = new Mongo.Collection("Tweets");
-export const StreamUsers = new Mongo.Collection("StreamUsers");
+
 
 
 if (Meteor.isServer) {
     Meteor.publish("Tweets", (hashtag) => {
         return Tweets.find({query: hashtag}, {sort: {date: -1}, limit: 30});
-    });
-    Meteor.publish("StreamUsers", (hashtag) => {
-        return StreamUsers.find({query: hashtag});
     });
 }
 
