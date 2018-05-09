@@ -12,41 +12,60 @@ import Wall from "./Wall";
 export default class BarChart extends Component {
     constructor(props) {
         super(props);
-        console.log(this.props);
+        console.log(props);
+        this.state={
+            users:props.users
+        }
     }
 
     componentDidMount() {
-        console.log(this.props);
-        let myData = this.props.data,
-            margin = {top: 40, bottom: 30, left: 40, right: 20},
+
+
+        let margin = {top: 40, bottom: 30, left: 40, right: 20},
             width = "300",
-            height = "140",
-            barHeight = 20;
+            height = "130",
+            active = d3.select(".activeUsers");
 
-        let color = d3.scaleOrdinal(d3.schemeCategory10);
+        console.log(active);
+        this.barHeight = 20;
 
-        let chart = d3.select("#chart")
-            .attr("width", parseInt(width)+margin.left + margin.right)
-            .attr("height", parseInt(height) + margin.top+margin.bottom)
+        this.color = d3.scaleOrdinal(d3.schemeCategory10);
+
+        this.chart = d3.select("#chart")
+            .attr("width", parseInt(width) + margin.left + margin.right)
+            .attr("height", parseInt(height) + margin.top + margin.bottom)
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
-        let xAxis = chart.append("a")
+        this.xAxis = this.chart.append("g")
             .attr("class", "x axis")
-            .attr("transform", "translate(0," + height +")");
+            .attr("transform", "translate(0," + height + ")");
 
-        let xScale = d3.scaleLinear()
+        this.xScale = d3.scaleLinear()
             .range([0, (parseInt(width)) - margin.left - margin.right]);
 
-        let yScale = d3.scaleLinear()
-            .range([height,0]);
+        this.yScale = d3.scaleLinear()
+            .range([height, 0]);
 
-        function update(myData) {
-            xScale.domain([0,d3.max(myData,function(d){return d.count})]);
-            yScale.domain(myData.map(function(d){return d.count}));
 
-            let ps = chart.selectAll("rect")
+
+    }
+
+    update(myData) {
+        {
+
+            this.xScale.domain([0, d3.max(myData, function (d) {
+                return d.count
+            })]);
+            this.yScale.domain(myData.map(function (d) {
+                return d.count
+            }));
+
+            //this.axis = d3.select(".x.axis").transition().duration(3).call(this.xAxis);
+            //this.chart.select(".yScale.axis").transition().call(this.yAxis);
+
+            let ps = this.chart.selectAll("rect")
                 .data(myData);
 
             ps.enter()
@@ -55,26 +74,32 @@ export default class BarChart extends Component {
                 .text((d) => {
                     return d.screenname;
                 })
-                .style("fill", (d)=>{return color(d.count)})
-                .attr("x", 0)
-                .attr("y", function (d, i) {
-                    return i * (barHeight + 1);
+                .style("fill", (d) => {
+                    return this.color(d.count)
                 })
-                .attr("height", barHeight)
+                .attr("x", 0)
+                .attr("y", (d, i)=> {
+                    return i * (this.barHeight + 1);
+                })
+                .attr("height", this.barHeight)
                 .attr("width", (d) => {
-                    return xScale(d.count);
+                    return this.xScale(d.count);
                 });
-                /*.on("mouserover", tip.show)
-                .on("mouseout", tip.hide);*/
+            /*.on("mouserover", tip.show)
+            .on("mouseout", tip.hide);*/
 
             ps.exit()
                 .remove();
 
-            xAxis.call(d3.axisBottom(xScale));
+            this.xAxis.call(d3.axisBottom(this.xScale));
         }
-
-        update(myData);
     }
+
+    componentDidUpdate(){
+        console.log(this.props);
+        this.update(this.props.data);
+    }
+
 
     render() {
         return (

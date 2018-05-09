@@ -12,32 +12,6 @@ class Wall extends Component {
         this.state = {};
     }
 
-    addUpdateUsers() {
-        i = 0;
-        console.log("entra");
-        for (i; i < this.props.tweets.length; i++) {
-            tweet = this.props.tweets[i];
-            //console.log(tweet);
-            usName = tweet.author;
-            j = 0;
-            user = this.props.users.filter((user) => {
-                return user.name === usName;
-            });
-            //console.log(user);
-            if (user.length > 0) {
-                Meteor.call("users.update", user, (err, tweet) => {
-                    if (err) throw err;
-                    //console.log("tweet: ", err);
-                })
-            }
-            else {
-                Meteor.call("users.insert", tweet, (err, tweet) => {
-                    if (err) throw err;
-                    //console.log("tweet: ", err);
-                });
-            }
-        }
-    }
 
     renderTweets() {
         return this.props.tweets.map((tweet) => {
@@ -48,7 +22,7 @@ class Wall extends Component {
     }
 
     renderBarChart() {
-        return <BarChart data={this.props.users}/>
+        return (<BarChart data={this.props.users}/>)
     }
 
     render() {
@@ -57,9 +31,8 @@ class Wall extends Component {
             <div className="wall-background" style={{"backgroundColor": this.props.background}}>
                 <div className="container">
                     <div className="row">
-                        <div className="col-md-4 ">
-                            <h1 style={{"color": this.props.title}}> Active Users </h1>
-                            <canvas></canvas>
+                        <div className="col-md-4" id = "activeUsers">
+                            <h1 style={{"color": this.props.title}}> Top 5 Active Users </h1>
                             {this.renderBarChart()}
                         </div>
                         <div className="col-md-8 ">
@@ -85,14 +58,12 @@ export default withTracker((props) => {
     const title = props.location.state.title;
     const body = props.location.state.body;
     Meteor.subscribe('Tweets', hashtag);
-    Meteor.subscribe('StreamUsers');
+    Meteor.subscribe('StreamUser', hashtag);
     Meteor.subscribe('MostRts', hashtag);
     return {
         tweets: Tweets.find({}, {sort: {date: -1}, limit: 30}).fetch(),
-
-        users: StreamUsers.find({}).fetch(),
+        users: StreamUsers.find({},{sort:{count:-1}, limit:5}).fetch(),
         rts: TweetsAgg.find({}).fetch(),
-
         background: background,
         title: title,
         body: body

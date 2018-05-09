@@ -7,4 +7,7 @@ if (Meteor.isServer) {
     Meteor.publish("StreamUsers", () => {
         return StreamUsers.find({});
     });
+    Meteor.publish("StreamUser", (hashtag) => {
+        return StreamUsers.find({query:hashtag});
+    });
 }

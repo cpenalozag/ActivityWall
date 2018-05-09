@@ -69,7 +69,7 @@ Meteor.methods({
                     StreamUsers.insert(userInsert);
                 }
 
-                setTimeout(() => stream.destroy(), 10000);
+                setTimeout(() => stream.destroy(), 100000);
             }));
             stream.on("error", Meteor.bindEnvironment(function (error) {
 
