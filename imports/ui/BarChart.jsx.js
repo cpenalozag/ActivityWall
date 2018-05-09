@@ -10,7 +10,10 @@ import CreateEvent from "./CreateEvent";
 import Wall from "./Wall";
 
 export default class BarChart extends Component {
-
+    constructor(props) {
+        super(props);
+        console.log(this.props);
+    }
 
     componentDidMount() {
         console.log(this.props);

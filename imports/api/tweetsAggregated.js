@@ -32,25 +32,28 @@ Meteor.methods({
          * Searches tweets filtered by keyword
          **/
         client.get('search/tweets', {q: `#${hashtag}`, result_type: "mixed", count: 100, include_entities:true}, Meteor.bindEnvironment(function(error, list, response) {
-            TweetsAgg.remove({});
-            const tweets  = Object.values(list["statuses"]);
-            tweets.forEach (Meteor.bindEnvironment(function(t) {
-                const tweet = {
-                    query: hashtag,
-                    twid: t["id"],
-                    rts: t["retweet_count"],
-                    favs: t["favorite_count"],
-                    screenname: t["user"]["screen_name"]
-                };
-                new SimpleSchema({
-                    query: {type: String},
-                    twid: {type: Number},
-                    rts: {type: Number},
-                    favs: {type: Number},
-                    screenname: {type: String},
-                }).validate(tweet);
-                TweetsAgg.insert(tweet);
-            }));
+            console.log("get");
+            if (!error){
+                TweetsAgg.remove({});
+                const tweets  = Object.values(list["statuses"]);
+                tweets.forEach (function(t) {
+                    const tweet = {
+                        query: hashtag,
+                        twid: t["id"],
+                        rts: t["retweet_count"],
+                        favs: t["favorite_count"],
+                        screenname: t["user"]["screen_name"]
+                    };
+                    new SimpleSchema({
+                        query: {type: String},
+                        twid: {type: Number},
+                        rts: {type: Number},
+                        favs: {type: Number},
+                        screenname: {type: String},
+                    }).validate(tweet);
+                    TweetsAgg.insert(tweet);
+                });
+            }
         }));
     }
 })

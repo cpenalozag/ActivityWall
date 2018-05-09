@@ -52,13 +52,14 @@ class Wall extends Component {
     }
 
     render() {
+        console.log(this.props);
         return (
             <div className="wall-background" style={{"backgroundColor": this.props.background}}>
                 <div className="container">
                     <div className="row">
                         <div className="col-md-4 ">
                             <h1 style={{"color": this.props.title}}> Active Users </h1>
-                            <canvas drawable ></canvas>
+                            <canvas></canvas>
                             {this.renderBarChart()}
                         </div>
                         <div className="col-md-8 ">
