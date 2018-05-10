@@ -4,6 +4,7 @@ import {withTracker} from 'meteor/react-meteor-data';
 import {StreamUsers} from "../api/streamUsers.js";
 import {TweetsAgg} from "../api/tweetsAggregated.js";
 import BarChart from "./BarChart.jsx";
+import Nav from "./Nav";
 
 
 class Wall extends Component {
@@ -29,6 +30,7 @@ class Wall extends Component {
         console.log(this.props);
         return (
             <div className="wall-background" style={{"backgroundColor": this.props.background}}>
+                <Nav hashtag = {this.props.location.state.hashtag} title ={this.props.title} />
                 <div className="container">
                     <div className="row">
                         <div className="col-md-4" id = "activeUsers">

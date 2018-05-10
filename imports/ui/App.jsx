@@ -1,8 +1,9 @@
 import React, {Component} from "react";
-import { Switch, Route } from 'react-router-dom'
+import {Switch, Route} from 'react-router-dom'
 
 import CreateEvent from "./CreateEvent";
 import Wall from "./Wall";
+
 
 class App extends Component {
     constructor(props) {
@@ -12,10 +13,12 @@ class App extends Component {
 
     render() {
         return (
-            <Switch>
-                <Route exact path='/' component={CreateEvent}/>
-                <Route exact path='/wall' component={Wall}/>
-            </Switch>
+            <div>
+                <Switch>
+                    <Route exact path='/' component={CreateEvent}/>
+                    <Route exact path='/wall' component={Wall}/>
+                </Switch>
+            </div>
         );
     }
 }
