@@ -21,9 +21,10 @@ export default class BarChart extends Component {
     componentDidMount() {
 
 
-        let margin = {top: 40, bottom: 30, left: 40, right: 20},
-            width = "300",
-            height = "130",
+        let margin = {top: 40, bottom: 30, left: 40, right: 20};
+            this.width = 300;
+            this.height = 130;
+            this.padding =20;
             active = d3.select(".activeUsers");
 
         console.log(active);
@@ -32,21 +33,24 @@ export default class BarChart extends Component {
         this.color = d3.scaleOrdinal(d3.schemeCategory10);
 
         this.chart = d3.select("#chart")
-            .attr("width", parseInt(width) + margin.left + margin.right)
-            .attr("height", parseInt(height) + margin.top + margin.bottom)
+            .attr("width", parseInt(this.width) + margin.left + margin.right)
+            .attr("height", parseInt(this.height) + margin.top + margin.bottom)
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
         this.xAxis = this.chart.append("g")
             .attr("class", "x axis")
-            .attr("transform", "translate(0," + height + ")");
+            .attr("transform", "translate(0," + (this.height-this.padding) + ")");
 
         this.xScale = d3.scaleLinear()
-            .range([0, (parseInt(width)) - margin.left - margin.right]);
+            .range([0, (parseInt(this.width)) - margin.left - margin.right]);
 
         this.yScale = d3.scaleLinear()
-            .range([height, 0]);
+            .range([this.height, 0]);
+
+        let p = d3.precisionFixed(0.5);
+        this.f = d3.format("."+p + "f");
 
 
 
@@ -67,10 +71,18 @@ export default class BarChart extends Component {
 
             let ps = this.chart.selectAll("rect")
                 .data(myData);
+            let text = this.chart.selectAll("text")
+                .data(myData);
+
 
             ps.enter()
                 .append("rect")
                 .merge(ps)
+                .transition()
+                .delay((d,i)=>{
+                    return i /myData.length* 300;
+                })
+                .duration(1000)
                 .text((d) => {
                     return d.screenname;
                 })
@@ -85,13 +97,35 @@ export default class BarChart extends Component {
                 .attr("width", (d) => {
                     return this.xScale(d.count);
                 });
-            /*.on("mouserover", tip.show)
-            .on("mouseout", tip.hide);*/
+            /*.on("mouseover", (d)=>{
+                d3.select(this)
+                    .attr("fill", yellow);
+            });
+            /*.on("mouseout", tip.hide);*/
+
+            text.enter()
+                .append("text")
+                .merge(text)
+                .text((d)=>{
+                    return d.screenname;
+                })
+                .attr("x", (d,i)=>{
+                    return this.xScale(d.count)+4;
+                })
+                .attr("y", (d,i)=>{
+                    return i*(this.barHeight+1)+18;
+                })
+                .attr("font-family", "sans-serif")
+                .attr("font-size","12px");
 
             ps.exit()
+                .transition()
+                .duration(500)
+                .remove();
+            text.exit()
                 .remove();
 
-            this.xAxis.call(d3.axisBottom(this.xScale));
+            this.xAxis.call(d3.axisBottom(this.xScale).tickFormat(this.f));
         }
     }
 
