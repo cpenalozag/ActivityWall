@@ -28,7 +28,7 @@ class BubbleChart extends Component {
             .padding(1.5);
 
 
-        this.update(this.props);
+        //this.update(this.props);
 
     }
 
@@ -42,12 +42,12 @@ class BubbleChart extends Component {
 
         //console.log("Update", props);
         //console.log("State", this.svg);
-
+        console.log(props);
         if (!props.users || props.users.length === 0) return ;
 
         //const data = props.users;
         var root = d3.hierarchy({children: props.users})
-            .sum(function(d) { return d.favs; })
+            .sum(function(d) { return d.rts; })
             .each(function(d) {
                 if (name = d.data.screenname) {
                     var name, i = name.lastIndexOf(".");
@@ -85,7 +85,7 @@ class BubbleChart extends Component {
             .text(function(d) { return d; });
 
         node.append("title")
-            .text((d) => { return d.screenname + "\n" + this.format(d.data.favs); });
+            .text((d) => { return d.screenname + "\n" + this.format(d.data.rts); });
 
     }
 
@@ -93,8 +93,8 @@ class BubbleChart extends Component {
         return (
             <div className="bubbleChart">
                 <svg
-                    width="1100"
-                    height="600"
+                    width="600"
+                    height="400"
                     ref={(svg) => this.svg = svg}>
                 </svg>
             </div>

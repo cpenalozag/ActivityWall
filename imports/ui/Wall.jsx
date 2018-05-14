@@ -5,6 +5,7 @@ import {StreamUsers} from "../api/streamUsers.js";
 import {TweetsAgg} from "../api/tweetsAggregated.js";
 import BarChart from "./BarChart.jsx";
 import Nav from "./Nav";
+import BubbleChart from "./BubbleChart";
 
 
 class Wall extends Component {
@@ -31,13 +32,22 @@ class Wall extends Component {
         return (
             <div className="wall-background" style={{"backgroundColor": this.props.background}}>
                 <Nav hashtag = {this.props.location.state.hashtag} title ={this.props.title} />
-                <div className="container">
+                <div className="">
                     <div className="row">
-                        <div className="col-md-4" id = "activeUsers">
-                            <h1 style={{"color": this.props.title}}> Top 5 Active Users </h1>
-                            {this.renderBarChart()}
+                        <div className="col-md-4 col-lg-4">
+                            <div className="row">
+                                <div id = "activeUsers">
+                                    <h1 style={{"color": this.props.title}}> Top 5 Active Users </h1>
+                                    {this.renderBarChart()}
+                                </div>
+                            </div>
+                            <div className="row" id = "bubbleChart">
+                                <h1 style={{"color": this.props.title}}> Top 5 Retweets Users </h1>
+                                <BubbleChart users={this.props.rts}/>
+                            </div>
                         </div>
-                        <div className="col-md-8 ">
+
+                        <div className="col-md-8 col-lg-8">
                             <div className="row">
 
                                 {this.renderTweets()}
@@ -75,7 +85,7 @@ export default withTracker((props) => {
 class Tweet extends Component {
     render() {
         return (
-            <div className="col-md-6">
+            <div className="column">
                 <div className="tweet">
                     <div className="tweet--user">
                         <img className="tweet--user-avatar" src={this.props.tweet.avatar}

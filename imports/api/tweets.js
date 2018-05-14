@@ -17,6 +17,7 @@ if (Meteor.isServer) {
 
 Meteor.methods({
     "tweets.stream"(hashtag) {
+        StreamUsers.remove({});
         check(hashtag, String);
         var Twitter = require("twitter");
         var client = new Twitter({

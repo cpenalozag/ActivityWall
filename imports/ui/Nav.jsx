@@ -13,7 +13,7 @@ class Nav extends Component {
                         <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
                             <div className="container">
                                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                                    <a className="navbar-brand" style={{textTransform: "uppercase"}} href="/">LOGO</a>
+                                    <a className="navbar-brand" style={{textTransform: "uppercase"}} href="/">EVENT LOGO</a>
                                     <ul className="navbar-nav ml-auto">
 
                                         <li className="nav-item">
