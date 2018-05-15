@@ -311,7 +311,7 @@ text.category{
     font-size: 14px;
 }
 #activeUsers,
-#bubbleChart{
+.rowChart{
   padding-left: 30px;
 }
 svg{

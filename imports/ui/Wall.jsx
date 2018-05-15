@@ -6,12 +6,36 @@ import {TweetsAgg} from "../api/tweetsAggregated.js";
 import BarChart from "./BarChart.jsx";
 import Nav from "./Nav";
 import BubbleChart from "./BubbleChart";
+import WordCloud from "./WordCloud";
 
 
 class Wall extends Component {
     constructor(props) {
         super(props);
         this.state = {};
+        this.wordsMap = {};
+    }
+
+    countWord(){
+
+        this.props.tweets.forEach((tweet)=>{
+            let wordsArray = tweet.body.split(/\s+/);
+            wordsArray.forEach((word)=>{
+                if(this.wordsMap.hasOwnProperty(word)){
+                    this.wordsMap[word]++;
+                }
+                else{
+                    this.wordsMap[word]=1;
+                }
+            });
+        });
+        this.finalWordArray = Object.keys(this.wordsMap).map((key)=>{
+            return{
+                text:key,
+                size:this.wordsMap[key]
+            };
+        });
+        //console.log(this.finalWordArray);
     }
 
 
@@ -21,10 +45,14 @@ class Wall extends Component {
                 <Tweet key={tweet._id} tweet={tweet}/>
             )
         });
+
     }
 
     renderBarChart() {
         return (<BarChart data={this.props.users}/>)
+    }
+    componentDidUpdate(){
+        this.countWord();
     }
 
     render() {
@@ -41,9 +69,9 @@ class Wall extends Component {
                                     {this.renderBarChart()}
                                 </div>
                             </div>
-                            <div className="row" id = "bubbleChart">
+                            <div className="row rowChart">
                                 <h1 style={{"color": this.props.title}}> Top 5 Retweets Users </h1>
-                                <BubbleChart users={this.props.rts}/>
+                                <WordCloud wordsList= {this.finalWordArray}/>
                             </div>
                         </div>
 
@@ -51,6 +79,7 @@ class Wall extends Component {
                             <div className="row">
 
                                 {this.renderTweets()}
+
 
                             </div>
 

@@ -74,7 +74,7 @@ export default class BarChart extends Component {
             this.yScale.domain(myData.sort(function (a, b) {
                 return b.count - a.count;
             }).map((d) => {
-                return d.screenname;
+                return d.name;
             }));
 
             //this.axis = d3.select(".x axis").transition().duration(3).call(this.xAxis);
@@ -86,7 +86,7 @@ export default class BarChart extends Component {
             //Create chart row and move to below the bottom of the chart
             let chartRow = this.svg.selectAll("g.chartRow")
                 .data(myData, (d) => {
-                    return d.screenname;
+                    return d.name;
                 });
 
             let newRow = chartRow
@@ -107,6 +107,7 @@ export default class BarChart extends Component {
                 .style("fill", (d) => {
                     return this.color(d.count)
                 });
+
 
             //Add value labels
             newRow.append("text")
@@ -130,7 +131,10 @@ export default class BarChart extends Component {
                 .attr("dy", ".35em")
                 .attr("dx", "0.5em")
                 .text(function (d) {
-                    return d.screenname
+                    return d.name
+                })
+                .on("click", (d) => {
+                    window.open(d.profileURL,"_blank");
                 });
 
             //////////
@@ -152,7 +156,7 @@ export default class BarChart extends Component {
             chartRow.select(".label").transition()
                 .duration(300)
                 .attr("opacity", 1)
-                .tween("text", function(d) {
+                .tween("text", function (d) {
                     let i = d3.interpolate(+this.textContent.replace(/\,/g, ''), +d.count);
                     return (t) => {
                         this.textContent = Math.round(i(t));
@@ -186,7 +190,7 @@ export default class BarChart extends Component {
                 .delay(delay)
                 .duration(900)
                 .attr("transform", (d) => {
-                    return "translate(0," + this.yScale(d.screenname) + ")";
+                    return "translate(0," + this.yScale(d.name) + ")";
                 });
 
 

@@ -63,7 +63,7 @@ class BubbleChart extends Component {
             .data(this.pack(root).leaves())
             .enter().append("g")
             .attr("class", "node")
-            .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+            .attr("transform", function(d) { return "translate(" + parseInt((d.x)-70) + "," + parseInt((d.y)-60) + ")"; });
 
         node.append("circle")
             .attr("id", function(d) { return d.screenname; })

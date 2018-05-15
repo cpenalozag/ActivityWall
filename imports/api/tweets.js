@@ -18,6 +18,7 @@ if (Meteor.isServer) {
 Meteor.methods({
     "tweets.stream"(hashtag) {
         StreamUsers.remove({});
+        Tweets.remove({});
         check(hashtag, String);
         var Twitter = require("twitter");
         var client = new Twitter({
@@ -64,7 +65,8 @@ Meteor.methods({
                 else{
                     const userInsert = {
                         query: tweet.query,
-                        screenname: tweet.screenname,
+                        name: tweet.author,
+                        profileURL: "https://twitter.com/"+tweet.screenname,
                         count: 1
                     };
                     StreamUsers.insert(userInsert);
