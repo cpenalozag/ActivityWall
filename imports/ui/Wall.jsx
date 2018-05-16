@@ -12,7 +12,9 @@ import WordCloud from "./WordCloud";
 class Wall extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            wordCloud:false,
+        };
         this.wordsMap = {};
     }
 
@@ -48,11 +50,16 @@ class Wall extends Component {
 
     }
 
+    renderWordCloud(){
+        console.log("In");
+        this.setState({wordCloud:true});
+    }
+
     renderBarChart() {
         return (<BarChart data={this.props.users}/>)
     }
     componentDidUpdate(){
-        this.countWord();
+        //this.countWord();
     }
 
     render() {
@@ -70,8 +77,12 @@ class Wall extends Component {
                                 </div>
                             </div>
                             <div className="row rowChart">
-                                <h1 style={{"color": this.props.title}}> Top 5 Retweets Users </h1>
-                                <WordCloud wordsList= {this.finalWordArray}/>
+                                <h1 style={{"color": this.props.title}}> Most used words </h1>
+                                <br/>
+                                <button type="submit" className="btn btn-primary mb-2" onClick={this.renderWordCloud}>Show <i
+                                    className="fa fa-search" /></button>
+                                <br/>
+                                {/*{this.state.wordCloud ? <WordCloud wordsList = {this.finalWordArray.bind(this)}/>:""}*/}
                             </div>
                         </div>
 

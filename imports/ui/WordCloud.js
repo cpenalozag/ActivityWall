@@ -8,7 +8,13 @@ import React, {Component} from 'react';
 
 class WordCloud extends Component {
 
+
+    componentDidMount() {
+        this.redraw();
+    }
     update(words) {
+        this.leaderScale = d3.scaleLinear().range([10,100]);
+        this.fill = d3.scaleOrdinal(d3.schemeCategory20c);
         this.layout = cloud()
             .size([500, 500])
             .words(words)
@@ -17,8 +23,8 @@ class WordCloud extends Component {
                 return ~~(Math.random() * 2) * 90;
             })
             .font("Impact")
-            .fontSize(function (d) {
-                return d.size;
+            .fontSize( (d)=> {
+                return this.leaderScale(d.size);
             })
             .on("end", this.draw.bind(this));
         this.layout.start();
@@ -26,6 +32,12 @@ class WordCloud extends Component {
     }
 
     draw(words) {
+        this.leaderScale.domain([d3.min(words, function(d){
+            d.size;
+        }),
+    d3.max(words, function(d){
+        return d.size;
+        })]);
         var chart = d3.select("#wordCloud").append("svg")
             .attr("width", this.layout.size()[0])
             .attr("height", this.layout.size()[1])
@@ -38,6 +50,9 @@ class WordCloud extends Component {
                 return d.size + "px";
             })
             .style("font-family", "Impact")
+            .style("fill", (d,i)=>{
+                return this.fill(i);
+            })
             .attr("text-anchor", "middle")
             .attr("transform", function (d) {
                 return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
@@ -47,12 +62,18 @@ class WordCloud extends Component {
             });
     }
 
-    componentDidUpdate() {
+    redraw(){
         console.log(this.props.wordsList);
         if (this.props.wordsList)
             if (this.props.wordsList.length > 0)
                 this.update(this.props.wordsList);
     }
+    /*componentDidUpdate() {
+        console.log(this.props.wordsList);
+        if (this.props.wordsList)
+            if (this.props.wordsList.length > 0)
+                this.update(this.props.wordsList);
+    }*/
 
     render() {
         return (
