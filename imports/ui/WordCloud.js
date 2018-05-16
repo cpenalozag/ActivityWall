@@ -8,15 +8,21 @@ import React, {Component} from 'react';
 
 class WordCloud extends Component {
 
+    constructor(props){
+        super(props);
+        this.state={
+            cont :0
+        }
+    }
 
     componentDidMount() {
-        this.redraw();
+        //this.redraw();
     }
     update(words) {
         this.leaderScale = d3.scaleLinear().range([10,100]);
         this.fill = d3.scaleOrdinal(d3.schemeCategory20c);
         this.layout = cloud()
-            .size([500, 500])
+            .size([300, 300])
             .words(words)
             .padding(5)
             .rotate(function () {
@@ -64,16 +70,22 @@ class WordCloud extends Component {
 
     redraw(){
         console.log(this.props.wordsList);
-        if (this.props.wordsList)
-            if (this.props.wordsList.length > 0)
+        if (this.props.wordsList && this.state.cont===0)
+            if (this.props.wordsList.length > 0){
                 this.update(this.props.wordsList);
+                this.setState({cont:1});
+            }
+
+
     }
-    /*componentDidUpdate() {
+    componentDidUpdate() {
         console.log(this.props.wordsList);
-        if (this.props.wordsList)
-            if (this.props.wordsList.length > 0)
+        if (this.props.wordsList && this.state.cont===0)
+            if (this.props.wordsList.length > 100){
                 this.update(this.props.wordsList);
-    }*/
+                this.setState({cont:1});
+            }
+   }
 
     render() {
         return (

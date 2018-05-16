@@ -55,7 +55,7 @@ Meteor.methods({
                     screenname: {type: String},
                 }).validate(tweet);
                 Tweets.insert(tweet);
-                res = StreamUsers.find({screenname:tweet.screenname}).fetch();
+                res = StreamUsers.find({name:tweet.author}).fetch();
 
                 if(res.length>0){
                     let user = res[0];
