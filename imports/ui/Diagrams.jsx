@@ -12,30 +12,41 @@ class Diagrams extends Component {
         this.wordsMap = {};
     }
 
+    componentDidMount(){
+
+        let intervalId = setInterval(()=>{
+            this.wordsMap = [];
+            this.countWord()
+        }, 5000);
+    }
+
     renderBarChart() {
         return (<BarChart data={this.props.users}/>)
     }
 
     countWord() {
 
-        this.props.tweets.forEach((tweet) => {
-            let wordsArray = tweet.body.split(/\s+/);
-            wordsArray.forEach((word) => {
-                if (this.wordsMap.hasOwnProperty(word)) {
-                    this.wordsMap[word]++;
-                }
-                else {
-                    this.wordsMap[word] = 1;
-                }
+        if(this.props.tweets){
+            this.props.tweets.forEach((tweet) => {
+                let wordsArray = tweet.body.split(/\s+/);
+                wordsArray.forEach((word) => {
+                    if (this.wordsMap.hasOwnProperty(word)) {
+                        this.wordsMap[word]++;
+                    }
+                    else {
+                        this.wordsMap[word] = 1;
+                    }
+                });
             });
-        });
-        this.finalWordArray = Object.keys(this.wordsMap).map((key) => {
-            return {
-                text: key,
-                size: this.wordsMap[key]
-            };
-        });
-        //console.log(this.finalWordArray);
+            this.finalWordArray = Object.keys(this.wordsMap).map((key) => {
+                return {
+                    text: key,
+                    size: this.wordsMap[key]
+                };
+            });
+        }
+
+        console.log(this.finalWordArray);
     }
 
     renderWordCloud() {
@@ -43,8 +54,12 @@ class Diagrams extends Component {
         this.setState({wordCloud: true});
     }
 
-    componentDidUpdate() {
-        this.countWord();
+    componentDidUpdate(prevProps) {
+
+    }
+
+    componentWillUpdate(nextProps){
+
     }
 
 

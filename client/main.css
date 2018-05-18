@@ -297,7 +297,7 @@ input[type=radio]:checked + label>img {
     text-transform: uppercase;
 }
 
-#chart{
+#chart,.chartRow,svg{
     width:600px;
     height:400px;
 }
@@ -316,10 +316,10 @@ text.category{
 .rowChart{
   padding-left: 30px;
 }
-svg{
+/*svg{
     width: 100%;
     height:100%;
-}
+}*/
 #elements{
     width: 100%;
     height:100%;

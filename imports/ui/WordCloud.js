@@ -44,7 +44,7 @@ class WordCloud extends Component {
     d3.max(words, function(d){
         return d.size;
         })]);
-        var chart = d3.select("#wordCloud").append("svg")
+        let chart = d3.select("#wordCloud").append("svg")
             .attr("width", this.layout.size()[0])
             .attr("height", this.layout.size()[1])
             .append("g")
@@ -68,22 +68,11 @@ class WordCloud extends Component {
             });
     }
 
-    redraw(){
-        console.log(this.props.wordsList);
-        if (this.props.wordsList && this.state.cont===0)
-            if (this.props.wordsList.length > 0){
-                this.update(this.props.wordsList);
-                this.setState({cont:1});
-            }
-
-
-    }
     componentDidUpdate() {
-        console.log(this.props.wordsList);
-        if (this.props.wordsList && this.state.cont===0)
-            if (this.props.wordsList.length > 100){
+        //console.log(this.props.wordsList);
+        if (this.props.wordsList)
+            if (this.props.wordsList.length>0){
                 this.update(this.props.wordsList);
-                this.setState({cont:1});
             }
    }
 
