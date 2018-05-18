@@ -98,6 +98,8 @@ h3 {
     margin: auto !important;
 }
 .wall-background {
+    margin-left: 15vh;
+    width: 90%;
     padding-top: 5%;
     min-height: 100vh;
 }
@@ -332,4 +334,201 @@ svg{
 .column .tweet {
     margin-top: 8px;
     vertical-align: middle;
+}
+
+
+.sidebar {
+    overflow: scroll;
+    position: fixed;
+    width: 300px;
+    background: -moz-linear-gradient(top, #505050 0%, #202020 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #505050), color-stop(100%, #202020));
+    background: -webkit-linear-gradient(top, #505050 0%, #202020 100%);
+    background: -o-linear-gradient(top, #505050 0%, #202020 100%);
+    background: -ms-linear-gradient(top, #505050 0%, #202020 100%);
+    background: linear-gradient(to bottom, #505050 0%, #202020 100%);
+    background-size: 200%;
+    background-position: 0 100%;
+    top: 0;
+    left: 0;
+    height: 100%;
+    -webkit-transform: translateX(-230px);
+    transform: translateX(-230px);
+    transition: 300ms ease-in-out;
+    z-index: 5;
+    padding-top: 10vh;
+}
+.sidebar--expanded .sidebar-container{
+    min-height: 88% !important;
+    width: 90%;
+    margin: 10vh 5% 0 !important;
+    z-index: 8;
+}
+.sidebar--expanded {
+    background-size: 100%;
+    background-position: 0 0;
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+}
+.sidebar:hover {
+    background-position: 0 0;
+}
+
+.sidebar__toggle {
+    width: 100%;
+    height: 100%;
+    height: 4rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 1.8rem;
+    padding-bottom: 0;
+    transition: 300ms ease;
+    cursor: pointer;
+}
+.sidebar--expanded .arrow-close {
+    z-index: 5;
+    font-size: 50px;
+    color: white !important;
+    margin-left: 230px;
+    margin-right: 10px;
+    margin-top: 40vh;
+    cursor: pointer;
+}
+.sidebar .arrow-open {
+    z-index: 5;
+    font-size: 50px;
+    color: white !important;
+    margin-left: 230px;
+    margin-right: 10px;
+    margin-top: 40vh;
+    cursor: pointer;
+}
+.sidebar__toggle:focus {
+    outline: none;
+}
+
+.main-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    transition: 300ms ease-in-out;
+    position: relative;
+    z-index: 2;
+}
+
+
+.main-content header {
+    height: 5rem;
+    width: 100%;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1rem 0 2rem;
+}
+
+.main-content header span {
+    width: 16rem;
+    height: 2rem;
+    background: #e5e5e7;
+}
+
+.main-content header ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.main-content header ul li {
+    width: 6rem;
+    height: 2rem;
+    margin: 0 1rem;
+    background: #e5e5e7;
+}
+.main-content header ul li:last-child {
+    margin-right: 0;
+}
+
+.main-content .container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.main-content .module--full {
+    width: 100%;
+    height: 400px;
+    box-shadow: 0 3px 8px rgba(211, 211, 211, 0.1), 0 6px 7px rgba(211, 211, 211, 0.1);
+    background: white;
+}
+
+.main-content .module-wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.main-content .module--half {
+    flex: 1;
+    height: 400px;
+    box-shadow: 0 3px 8px rgba(211, 211, 211, 0.1), 0 6px 7px rgba(211, 211, 211, 0.1);
+    background: white;
+}
+.main-content .module--half:first-child {
+    margin-right: 1rem;
+}
+.sidebar--expanded .shape {
+    -webkit-animation: float 6s infinite alternate;
+    animation: float 6s infinite alternate;
+    margin-left: -100px;
+    margin-top: -20px;
+    opacity: 0.4;
+    -webkit-transform: scale(1) translateY(0);
+    transform: scale(1) translateY(0);
+}
+.sidebar--expanded .shape:nth-child(2) {
+    -webkit-animation: float 20s infinite alternate;
+    animation: float 20s infinite alternate;
+    -webkit-transform: scale(1) translateY(100px) translateX(170px);
+    transform: scale(1) translateY(100px) translateX(170px);
+}
+
+@-webkit-keyframes float {
+    20% {
+        top: 0;
+        left: -100px;
+    }
+    50% {
+        left: 0;
+    }
+    100% {
+        top: 500px;
+        left: -100px;
+    }
+}
+
+@keyframes float {
+    20% {
+        top: 0;
+        left: -100px;
+    }
+    50% {
+        left: 0;
+    }
+    100% {
+        top: 500px;
+        left: -100px;
+    }
 }

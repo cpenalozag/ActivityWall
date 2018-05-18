@@ -2,21 +2,44 @@ import React, {Component} from "react";
 import {Switch, Route} from 'react-router-dom'
 
 import CreateEvent from "./CreateEvent";
-import Wall from "./Wall";
+import Container from "./Container";
+import Diagrams from "./Diagrams";
 
 
 class App extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            colorBackground: "#040408",
+            colorTitle: "#00aced",
+            colorBody: "#E9F2F2",
+            hashtag: "",
+            redirect:false
+        };
+    }
+
+    handleOnClick(hashtag) {
+        // Get user input
+
+        Meteor.call("tweets.stream", hashtag);
+        Meteor.call("tweets.get", hashtag);
+        this.setState({hashtag:hashtag, redirect:true})
     }
 
     render() {
         return (
             <div>
                 <Switch>
-                    <Route exact path='/' component={CreateEvent}/>
-                    <Route exact path='/wall' component={Wall}/>
+                    <Route exact path='/' render={(props) =>
+                        <CreateEvent {...props} colorBackground={this.state.colorBackground} colorTitle={this.state.colorTitle}
+                              colorBody={this.state.colorBody} hashtag={this.state.hashtag} redirect={this.state.redirect} handleOnClick={this.handleOnClick.bind(this)} />}/>
+                    <Route exact path='/wall/:hashtag' render={(props) =>
+                        <Container {...props} colorBackground={this.state.colorBackground} colorTitle={this.state.colorTitle}
+                              colorBody={this.state.colorBody} hashtag={this.state.hashtag} />}/>
+                    <Route exact path="/wall/:hashtag/diagrams"
+                           render={(props) => <Diagrams {...props} tweets={this.props.tweets}
+                                                        users={this.props.users}
+                                                        rts={this.props.rts}/>}/>
                 </Switch>
             </div>
         );

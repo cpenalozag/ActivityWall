@@ -8,25 +8,10 @@ class CreateEvent extends Component {
         super(props);
         this.state = {
             currentTab: 0,
-            colorBackground: "#040408",
-            colorTitle: "#00aced",
-            colorBody: "#E9F2F2",
-            redirect: false,
-            hashtag: "",
             socialNetwork: "T",
             arrowEnabled: true
         };
-        this.handleOnClick = this.handleOnClick.bind(this);
         this.handleSNChange = this.handleSNChange.bind(this);
-    }
-
-    handleOnClick() {
-        // Get user input
-        const hashtag = this.refs.hashtag.value;
-        Meteor.call("tweets.stream", hashtag);
-        Meteor.call("tweets.get", hashtag);
-        // then redirect
-        this.setState({hashtag: hashtag, redirect: true});
     }
 
     handleSNChange(e) {
@@ -46,27 +31,21 @@ class CreateEvent extends Component {
     }
 
     handleChangeCompleteBackground = (color) => {
-        this.setState({colorBackground: color.hex});
+        this.props.colorBackground = color.hex;
     };
 
     handleChangeCompleteTitle = (color) => {
-        this.setState({colorTitle: color.hex});
+        this.props.colorTitle= color.hex;
     };
 
     handleChangeCompleteBody = (color) => {
-        this.setState({colorBody: color.hex});
+        this.props.colorBody = color.hex;
     };
 
     render() {
-        if (this.state.redirect) {
+        if (this.props.redirect) {
             return <Redirect to={{
-                pathname: "/wall",
-                state: {
-                    hashtag: this.state.hashtag,
-                    background: this.state.colorBackground,
-                    title: this.state.colorTitle,
-                    body: this.state.colorBody
-                }
+                pathname: `/wall/${this.props.hashtag}`
             }}/>;
         }
         return (
@@ -161,17 +140,17 @@ class CreateEvent extends Component {
                                     <div className="row row-pickers">
                                         <div className="col-md-4">
                                             <p className="p-home">Background</p>
-                                            <ColorPicker color={this.state.colorBackground}
+                                            <ColorPicker color={this.props.colorBackground}
                                                          onChangeComplete={this.handleChangeCompleteBackground.bind(this)}/>
                                         </div>
                                         <div className="col-md-4">
                                             <p className="p-home">Body</p>
-                                            <ColorPicker color={this.state.colorBody}
+                                            <ColorPicker color={this.props.colorBody}
                                                          onChangeComplete={this.handleChangeCompleteBody.bind(this)}/>
                                         </div>
                                         <div className="col-md-4">
                                             <p className="p-home">Titles</p>
-                                            <ColorPicker color={this.state.colorTitle}
+                                            <ColorPicker color={this.props.colorTitle}
                                                          onChangeComplete={this.handleChangeCompleteTitle.bind(this)}/>
                                         </div>
                                     </div>
@@ -223,7 +202,7 @@ class CreateEvent extends Component {
                                     <div className="container">
                                         <div className="row side-pad">
                                             <div className="row-pickers">
-                                                <form className="form-inline" onSubmit={this.handleOnClick}>
+                                                <form className="form-inline" onSubmit={()=>this.props.handleOnClick(this.refs.hashtag.value)}>
                                                     <label className="hashtag" htmlFor="inlineFormInputName2"># </label>
                                                     <input type="text" className="form-control mb-2 mr-sm-2" required="required"
                                                            id="inlineFormInputName2" placeholder="BadBunnyBeibe"
