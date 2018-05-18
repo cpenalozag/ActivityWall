@@ -3,7 +3,7 @@ import {Tweets} from "../api/tweets";
 import {withTracker} from 'meteor/react-meteor-data';
 import {StreamUsers} from "../api/streamUsers.js";
 import {TweetsAgg} from "../api/tweetsAggregated.js";
-import {BrowserRouter as Router, Switch, Route, NavLink} from 'react-router-dom';
+import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import Nav from "./Nav";
 import Wall from "./Wall";
 import Diagrams from "./Diagrams";
@@ -46,10 +46,7 @@ class Container extends Component {
                         <div className="container sidebar-container">
                             <div className="row">
                                 <div className="col-md-10">
-
-                                </div>
-                                <div className="col-md-2">
-                                    <i className="arrow-circle-right"></i>
+                                    <Link to={`/wall/${this.props.hashtag}/diagrams`}>Diagrams</Link>
                                 </div>
                             </div>
                         </div>
