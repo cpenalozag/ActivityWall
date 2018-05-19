@@ -99,7 +99,7 @@ class Container extends Component {
                                    render={(props) => <Wall {...props} tweets={this.props.tweets}
                                                             users={this.props.users}
                                                             rts={this.props.rts}/>}/>
-                            <Route exact path="/wall/:hashtag/diagrams"
+                            <Route exact path="/:hashtag/diagrams"
                                    render={(props) => <Diagrams {...props} tweets={this.props.weeds}
                                                             users={this.props.users}
                                                             rts={this.props.rts}/>}/>
