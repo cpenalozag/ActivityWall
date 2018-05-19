@@ -1,18 +1,9 @@
 import React, {Component} from "react";
 import * as d3 from "d3";
-//import {scaleOrdinal, schemeCategory20c} from 'd3-scale';
-import tip from "d3-tip";
-
-import {Meteor} from 'meteor/meteor';
-import {Switch, Route} from 'react-router-dom'
-
-import CreateEvent from "./CreateEvent";
-import Wall from "./Wall";
 
 export default class BarChart extends Component {
     constructor(props) {
         super(props);
-        console.log(props);
         this.state = {
             users: props.users,
             datos: []
@@ -23,13 +14,10 @@ export default class BarChart extends Component {
 
 
         this.margin = {top: 0, bottom: 0, left: 0, right: 0};
-        this.width = 300;
-        this.height = 130;
+        this.width = 500;
+        this.height = 300;
         this.padding = 20;
-        active = d3.select(".activeUsers");
         this.categoryIndent = 4 * 15 + 5;
-
-        console.log(active);
         this.barHeight = 20;
 
         this.xScale = d3.scaleLinear()
@@ -48,25 +36,10 @@ export default class BarChart extends Component {
             .attr("id", "elements")
             .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
 
-        /*this.g = this.chart
-            .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");*/
-
-
-        /*this.xAxis = this.chart.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(0," + (this.height-this.padding) + ")");*/
-
-
-        //let p = d3.precisionFixed(0.5);
-        //this.f = d3.format("."+p + "f");
-
-
     }
 
     update(myData) {
         {
-
 
             this.xScale.domain([0, d3.max(myData, function (d) {
                 return d.count;
@@ -76,10 +49,6 @@ export default class BarChart extends Component {
             }).map((d) => {
                 return d.name;
             }));
-
-            //this.axis = d3.select(".x axis").transition().duration(3).call(this.xAxis);
-            //this.chart.select(".yScale.axis").transition().call(this.yAxis);
-
 
             ///ENTER
 
@@ -105,7 +74,7 @@ export default class BarChart extends Component {
                     return this.xScale(d.count);
                 })
                 .style("fill", (d) => {
-                    return this.color(d.count)
+                    return this.color(d.count);
                 });
 
 
@@ -131,7 +100,7 @@ export default class BarChart extends Component {
                 .attr("dy", ".35em")
                 .attr("dx", "0.5em")
                 .text(function (d) {
-                    return d.name
+                    return d.name;
                 })
                 .on("click", (d) => {
                     window.open(d.profileURL,"_blank");
@@ -193,101 +162,10 @@ export default class BarChart extends Component {
                     return "translate(0," + this.yScale(d.name) + ")";
                 });
 
-
-            /*
-            let ps = this.chart.selectAll("rect")
-                .data(myData);
-            let text = this.chart.selectAll("text")
-                .data(myData);
-
-            let xAxis = this.chart.selectAll("#x-axis");
-
-            this.g.append("g")
-                .attr("class", "x-axis")
-                .attr("transform", "translate(0," + this.height + ")")
-                .call(d3.axisBottom(this.xScale))
-                .append("text")
-                .attr("y", 30)
-                .attr("x", 650)
-                .attr("dy", "0.5em")
-                .style("fill", "black")
-                .text("count");
-
-            this.g.append("g")
-                .attr("class", "y-axis")
-                .call(d3.axisLeft(this.yScale));
-
-            this.g.selectAll(".bar")
-                .data(myData)
-                .enter()
-                .append("rect")
-                .attr("class", "bar")
-                .attr("x", 0)
-                .attr("y", (d)=>{
-                    return this.yScale(d.screenname);
-                })
-                .attr("width", (d)=>{
-                    return this.xScale(d.count);
-                })
-                .style("fill", "#2ca25f");
-            /*ps.enter()
-                .append("rect")
-                .merge(ps)
-                .transition()
-                .delay((d,i)=>{
-                    return i /myData.length* 300;
-                })
-                .duration(1000)
-                .text((d) => {
-                    return d.screenname;
-                })
-                .style("fill", (d) => {
-                    return this.color(d.count)
-                })
-                .attr("x", 0)
-                .attr("y", (d, i)=> {
-                    return i * (this.barHeight + 1);
-                })
-                .attr("height", this.barHeight)
-                .attr("width", (d) => {
-                    return this.xScale(d.count);
-                });
-            /*.on("mouseover", (d)=>{
-                d3.select(this)
-                    .attr("fill", yellow);
-            });
-            /*.on("mouseout", tip.hide);*/
-
-            /*text.enter()
-                .append("text")
-                .merge(text)
-                .text((d)=>{
-                    return d.screenname;
-                })
-                .attr("x", (d,i)=>{
-                    return this.xScale(d.count)+4;
-                })
-                .attr("y", (d,i)=>{
-                    return i*(this.barHeight+1)+18;
-                })
-                .attr("font-family", "sans-serif")
-                .attr("font-size","12px");
-
-            ps.exit()
-                .transition()
-                .duration(500)
-                .remove();
-
-            this.xAxis.call(d3.axisBottom(this.xScale));
-            text.exit()
-                .remove();*/
-
-
         }
     }
 
-    componentDidUpdate() {
-        console.log(this.props);
+    componentDidUpdate(nextProps) {
         this.update(this.props.data);
 
     }
