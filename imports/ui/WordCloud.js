@@ -19,7 +19,7 @@ class WordCloud extends Component {
         //var fill = d3.scale.category20();
         this.fill = d3.scaleOrdinal(d3.schemeCategory20c);
 
-        this.leaderScale = d3.scaleLinear().range([10, 100]);
+        this.leaderScale = d3.scaleLinear().range([20, 100]);
         //Construct the word cloud's SVG element
         this.svg = d3.select(selector).append("svg")
             .attr("width", 500)
@@ -91,7 +91,8 @@ class WordCloud extends Component {
                     .words(words)
                     .padding(5)
                     .rotate(function () {
-                        return ~~(Math.random() * 2) * 90;
+                        //return ~~(Math.random() * 2) * 90;
+                        return 0;
                     })
                     .font("Impact")
                     .fontSize((d) => {
@@ -117,7 +118,7 @@ class WordCloud extends Component {
             }
         setTimeout(() => {
             this.showNewWords(vis)
-        }, 6000);
+        }, 10000);
 
     }
 
@@ -133,6 +134,7 @@ class WordCloud extends Component {
     componentDidUpdate() {
         //Start cycling through the demo data
         //this.showNewWords(this.myWordCloud);
+        console.log("in");
         this.data = this.props.finalWordArray;
     }
 

@@ -82,6 +82,6 @@ export default withTracker((props) => {
         body: props.colorBody,
         title: props.colorTitle,
         hashtag: props.match.params.hashtag,
-        weeds: Tweets.find({}, {sort: {date: -1}, limit: 30}).fetch(),
+        weeds: Tweets.find({}).fetch(),
     };
 })(Container);
