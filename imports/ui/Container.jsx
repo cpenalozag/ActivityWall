@@ -99,8 +99,8 @@ class Container extends Component {
                                    render={(props) => <Wall {...props} tweets={this.props.tweets}
                                                             users={this.props.users}
                                                             rts={this.props.rts}/>}/>
-                            <Route exact path="/:hashtag/diagrams"
-                                   render={(props) => <Diagrams {...props} tweets={this.props.tweets}
+                            <Route exact path="/wall/:hashtag/diagrams"
+                                   render={(props) => <Diagrams {...props} tweets={this.props.weeds}
                                                             users={this.props.users}
                                                             rts={this.props.rts}/>}/>
                             <Route exact path="/:hashtag/instagram"
@@ -125,6 +125,7 @@ export default withTracker((props) => {
         background: props.colorBackground,
         body: props.colorBody,
         title: props.colorTitle,
-        hashtag: props.match.params.hashtag
+        hashtag: props.match.params.hashtag,
+        weeds: Tweets.find({}).fetch(),
     };
 })(Container);
