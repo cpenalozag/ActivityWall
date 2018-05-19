@@ -341,12 +341,12 @@ svg{
     overflow: scroll;
     position: fixed;
     width: 300px;
-    background: -moz-linear-gradient(top, #505050 0%, #202020 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #505050), color-stop(100%, #202020));
-    background: -webkit-linear-gradient(top, #505050 0%, #202020 100%);
-    background: -o-linear-gradient(top, #505050 0%, #202020 100%);
-    background: -ms-linear-gradient(top, #505050 0%, #202020 100%);
-    background: linear-gradient(to bottom, #505050 0%, #202020 100%);
+    background: -moz-linear-gradient(top, #3b4349 0%, #343a40 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3b4349), color-stop(100%, #343a40));
+    background: -webkit-linear-gradient(top, #3b4349 0%, #343a40 100%);
+    background: -o-linear-gradient(top, #3b4349 0%, #343a40 100%);
+    background: -ms-linear-gradient(top, #3b4349 0%, #343a40 100%);
+    background: linear-gradient(to bottom, #3b4349 0%, #343a40 100%);
     background-size: 200%;
     background-position: 0 100%;
     top: 0;
@@ -358,12 +358,39 @@ svg{
     z-index: 5;
     padding-top: 10vh;
 }
-.sidebar--expanded .sidebar-container{
+.sidebar .sidebar-container{
     min-height: 88% !important;
     width: 90%;
     margin: 10vh 5% 0 !important;
     z-index: 8;
 }
+
+.sidebar .sidebar-container ul{
+    list-style-type: none;
+}
+
+.active-link {
+    font-weight: 900;
+    text-decoration: underline !important;
+}
+
+.sidebar .sidebar-container a{
+    text-decoration: none;
+    color: white;
+    font-size: 1.3rem;
+    line-height: 2.5rem;
+}
+
+.picture {
+    max-width: 90%;
+    text-align: center;
+}
+
+.sidebar .sidebar-container a:hover {
+    opacity: 0.7;
+
+}
+
 .sidebar--expanded {
     background-size: 100%;
     background-position: 0 0;
@@ -531,4 +558,37 @@ svg{
         top: 500px;
         left: -100px;
     }
+}
+
+.instagram-post {
+    background-color: white;
+    margin: 10px auto;
+    border: lightgray solid 1px;
+    border-radius: 5px;
+}
+
+.profile-management {
+    position: relative;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.2);
+}
+
+.post-text{
+    position: relative;
+    padding: 6px 10px 10px 10px;
+    line-height: 18px;
+    overflow: hidden;
+}
+
+.line{
+    height: 1px;
+    background-color: rgba(200, 200, 200, 1);
+}
+
+.columns{
+    padding: 12px 0;
+    background-color: rgba(250, 250, 250, 1);
+    width: 20%;
+    float: left;
+    text-align: center;
+    height:100%;
 }

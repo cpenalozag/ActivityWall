@@ -3,17 +3,19 @@ import {Tweets} from "../api/tweets";
 import {withTracker} from 'meteor/react-meteor-data';
 import {StreamUsers} from "../api/streamUsers.js";
 import {TweetsAgg} from "../api/tweetsAggregated.js";
-import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
-import Nav from "./Nav";
+import {BrowserRouter as Router, Switch, Route, NavLink} from 'react-router-dom';
 import Wall from "./Wall";
 import Diagrams from "./Diagrams";
+import Photos from "./Photos";
 
 
 class Container extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            expanded: false
+            expanded: false,
+            pictures: "",
+            instagram:false
         };
         this.toggleSidebar = this.toggleSidebar.bind(this);
     }
@@ -24,11 +26,45 @@ class Container extends Component {
         })
     }
 
+    callInstagram() {
+        Meteor.setInterval(() => {
+            Meteor.call('instagram.get', this.props.hashtag, (error, result) => {
+                if (error) {
+                    // handle the error
+                } else {
+                    this.setState({pictures: result});
+                }
+            });
+        }, 15000)
+    }
+
+    componentWillMount() {
+        this.callInstagram();
+    }
+
+
     render() {
         return (
             <Router>
                 <main>
-                    <Nav hashtag={this.props.hashtag} title={this.props.title}/>
+                    <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+                        <div className="container">
+                            <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                                <a className="navbar-brand" style={{textTransform: "uppercase"}} href="/">EVENT LOGO</a>
+                                <ul className="navbar-nav ml-auto">
+
+                                    <li className="nav-item">
+                                        <NavLink activeClassName="active-link" exact className="nav-link" to="/">Home</NavLink>
+                                    </li>
+                                    <li className="nav-item">
+                                        <NavLink activeClassName="active-link" exact className="nav-link" to="/">About Us</NavLink>
+                                    </li>
+
+                                </ul>
+                                <a className="navbar-brand" style={{textTransform: "uppercase"}} href="/">#{this.props.hashtag}</a>
+                            </div>
+                        </div>
+                    </nav>
                     <div className={this.state.expanded ? "sidebar sidebar--expanded" : "sidebar"}>
                         {this.state.expanded ?
                             <div>
@@ -45,22 +81,35 @@ class Container extends Component {
 
                         <div className="container sidebar-container">
                             <div className="row">
-                                <div className="col-md-10">
-                                    <Link to={`/wall/${this.props.hashtag}/diagrams`}>Diagrams</Link>
+                                <div className="col-md-12">
+                                    <ul className="list-group">
+                                        <li>
+                                            <NavLink activeClassName="active-link" to={`/${this.props.hashtag}/tweets`}>Tweets</NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink activeClassName="active-link" to={`/${this.props.hashtag}/diagrams`}>Diagrams</NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink activeClassName="active-link" to={`/${this.props.hashtag}/instagram`}>Photos</NavLink>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <section className={this.state.expanded ? "main-content main-content--expanded" : "main-content"}>
                         <Switch>
-                            <Route exact path="/wall/:hashtag"
+                            <Route exact path="/:hashtag/tweets"
                                    render={(props) => <Wall {...props} tweets={this.props.tweets}
                                                             users={this.props.users}
                                                             rts={this.props.rts}/>}/>
-                            <Route exact path="/wall/:hashtag/diagrams"
+                            <Route exact path="/:hashtag/diagrams"
                                    render={(props) => <Diagrams {...props} tweets={this.props.tweets}
                                                             users={this.props.users}
                                                             rts={this.props.rts}/>}/>
+                            <Route exact path="/:hashtag/instagram"
+                                   render={(props) => <Photos {...props} pictures={this.state.pictures}/>}/>
                         </Switch>
                     </section>
                 </main>

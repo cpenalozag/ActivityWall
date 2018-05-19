@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import {withTracker} from 'meteor/react-meteor-data';
-import Nav from "./Nav";
 
 class Wall extends Component {
     constructor(props) {
@@ -23,7 +22,6 @@ class Wall extends Component {
     render() {
         return (
             <div className="wall-background" style={{"backgroundColor": this.props.background}}>
-                <Nav hashtag={this.props.hashtag} title={this.props.title}/>
                 <div className="row">
                     {this.renderTweets()}
                 </div>

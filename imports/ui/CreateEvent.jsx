@@ -45,7 +45,7 @@ class CreateEvent extends Component {
     render() {
         if (this.props.redirect) {
             return <Redirect to={{
-                pathname: `/wall/${this.props.hashtag}`
+                pathname: `/${this.props.hashtag}/tweets`
             }}/>;
         }
         return (
