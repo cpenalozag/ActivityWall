@@ -9,7 +9,7 @@ class Diagrams extends Component {
             wordCloud: false,
             expanded: false
         };
-        this.wordsMap = {};
+        this.wordsMap = [];
     }
 
     componentDidMount(){
@@ -44,14 +44,12 @@ class Diagrams extends Component {
                     size: this.wordsMap[key]
                 };
             });
+            this.finalWordArray.sort(function(a,b){
+                return b.size - a.size;
+            });
+            this.finalWordArray = this.finalWordArray.slice(0,100);
         }
 
-        console.log(this.finalWordArray);
-    }
-
-    renderWordCloud() {
-        console.log("In");
-        this.setState({wordCloud: true});
     }
 
     componentDidUpdate(prevProps) {
@@ -77,8 +75,7 @@ class Diagrams extends Component {
                         <h1 style={{"color": this.props.title}}> Most used words </h1>
 
                         <br/>
-                        {/*{this.state.wordCloud ? <WordCloud wordsList = {this.finalWordArray.bind(this)}/>:""}*/}
-                        <WordCloud wordsList = {this.finalWordArray}/>
+                        <WordCloud finalWordArray = {this.finalWordArray}/>
                     </div>
                 </div>
             </div>
