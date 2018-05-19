@@ -14,7 +14,6 @@ if (Meteor.isServer) {
         return Tweets.find({query: hashtag}, {sort: {date: -1}, limit: 30});
     });
 }
-
 Meteor.methods({
     "tweets.stream"(hashtag) {
         StreamUsers.remove({});
@@ -67,7 +66,7 @@ Meteor.methods({
                         query: tweet.query,
                         name: tweet.author,
                         profileURL: "https://twitter.com/"+tweet.screenname,
-                        count: 1
+                        count: 1,
                     };
                     StreamUsers.insert(userInsert);
                 }

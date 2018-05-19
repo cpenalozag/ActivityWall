@@ -19,7 +19,7 @@ class Diagrams extends Component {
         let intervalId = setInterval(() => {
             this.wordsMap = [];
             this.countWord()
-        }, 10000);
+        }, 5000);
     }
 
     renderBarChart() {

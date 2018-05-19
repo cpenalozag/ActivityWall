@@ -118,7 +118,7 @@ class WordCloud extends Component {
             }
         setTimeout(() => {
             this.showNewWords(vis)
-        }, 10000);
+        }, 7000);
 
     }
 
@@ -134,7 +134,6 @@ class WordCloud extends Component {
     componentDidUpdate() {
         //Start cycling through the demo data
         //this.showNewWords(this.myWordCloud);
-        console.log("in");
         this.data = this.props.finalWordArray;
     }
 
