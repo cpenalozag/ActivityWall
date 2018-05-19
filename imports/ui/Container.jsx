@@ -50,16 +50,11 @@ class Container extends Component {
                     <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
                         <div className="container">
                             <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                                <a className="navbar-brand" style={{textTransform: "uppercase"}} href="/">EVENT LOGO</a>
+                                <a className="navbar-brand" style={{textTransform: "uppercase"}} href="/">Activity Wall</a>
                                 <ul className="navbar-nav ml-auto">
-
                                     <li className="nav-item">
-                                        <NavLink activeClassName="active-link" exact className="nav-link" to="/">Home</NavLink>
+                                        <NavLink activeClassName="active-link" exact className="nav-link" to="/">About</NavLink>
                                     </li>
-                                    <li className="nav-item">
-                                        <NavLink activeClassName="active-link" exact className="nav-link" to="/">About Us</NavLink>
-                                    </li>
-
                                 </ul>
                                 <a className="navbar-brand" style={{textTransform: "uppercase"}} href="/">#{this.props.hashtag}</a>
                             </div>

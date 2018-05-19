@@ -41,8 +41,6 @@ class App extends Component {
                            render={(props) => <Diagrams {...props} tweets={this.props.tweets}
                                                         users={this.props.users}
                                                         rts={this.props.rts}/>}/>
-                    <Route exact path="/:hashtag/instagram"
-                           render={(props) => <Photos {...props} pictures={this.state.pictures}/>}/>
                 </Switch>
             </div>
         );
