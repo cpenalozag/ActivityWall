@@ -4,6 +4,7 @@ import {Switch, Route} from 'react-router-dom'
 import CreateEvent from "./CreateEvent";
 import Container from "./Container";
 import Diagrams from "./Diagrams";
+import Photos from "./Photos";
 
 
 class App extends Component {
@@ -33,13 +34,15 @@ class App extends Component {
                     <Route exact path='/' render={(props) =>
                         <CreateEvent {...props} colorBackground={this.state.colorBackground} colorTitle={this.state.colorTitle}
                               colorBody={this.state.colorBody} hashtag={this.state.hashtag} redirect={this.state.redirect} handleOnClick={this.handleOnClick.bind(this)} />}/>
-                    <Route exact path='/wall/:hashtag' render={(props) =>
+                    <Route exact path='/:hashtag/tweets' render={(props) =>
                         <Container {...props} colorBackground={this.state.colorBackground} colorTitle={this.state.colorTitle}
                               colorBody={this.state.colorBody} hashtag={this.state.hashtag} />}/>
-                    <Route exact path="/wall/:hashtag/diagrams"
+                    <Route exact path="/:hashtag/diagrams"
                            render={(props) => <Diagrams {...props} tweets={this.props.tweets}
                                                         users={this.props.users}
                                                         rts={this.props.rts}/>}/>
+                    <Route exact path="/:hashtag/instagram"
+                           render={(props) => <Photos {...props} pictures={this.state.pictures}/>}/>
                 </Switch>
             </div>
         );
