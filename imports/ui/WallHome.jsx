@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 
-class WallContent extends Component {
+class WallHome extends Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -13,4 +13,4 @@ class WallContent extends Component {
     }
 }
 
-export default WallContent;
+export default WallHome;

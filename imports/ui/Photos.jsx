@@ -43,7 +43,6 @@ class Picture extends Component {
 
                         <section className="post-text">
                             <h2 className="likes">{this.props.picture.edge_liked_by.count} likes</h2>
-                            <span className="p-name">natura</span>
                             {this.props.picture.edge_media_to_caption.edges[0] ?
                                 <span
                                     className="text">{this.props.picture.edge_media_to_caption.edges[0].node.text}</span> : ""}

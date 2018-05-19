@@ -383,7 +383,6 @@ text.category{
 
 .picture {
     max-width: 90%;
-    text-align: center;
 }
 
 .sidebar .sidebar-container a:hover {
@@ -577,6 +576,10 @@ text.category{
     padding: 6px 10px 10px 10px;
     line-height: 18px;
     overflow: hidden;
+}
+
+.post-image {
+    text-align: center;
 }
 
 .line{

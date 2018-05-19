@@ -56,14 +56,6 @@ class Diagrams extends Component {
 
     }
 
-    componentDidUpdate(prevProps) {
-
-    }
-
-    componentWillUpdate(nextProps) {
-
-    }
-
 
     render() {
         return (
