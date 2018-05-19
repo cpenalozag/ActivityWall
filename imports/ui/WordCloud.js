@@ -19,7 +19,7 @@ class WordCloud extends Component {
         //var fill = d3.scale.category20();
         this.fill = d3.scaleOrdinal(d3.schemeCategory20c);
 
-        this.leaderScale = d3.scaleLinear().range([20, 100]);
+        this.leaderScale = d3.scaleLinear().range([10, 100]);
         //Construct the word cloud's SVG element
         this.svg = d3.select(selector).append("svg")
             .attr("width", 500)
