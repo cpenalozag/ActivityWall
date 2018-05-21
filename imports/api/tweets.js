@@ -14,12 +14,17 @@ if (Meteor.isServer) {
         return Tweets.find({query: hashtag}, {sort: {date: -1}, limit: 30});
     });
 }
+/* Camilo Zambrano: For security reasons, and also make your app not depend on https, you
+should make this methods inside the "if (Meteor.isServer)..." */
 Meteor.methods({
     "tweets.stream"(hashtag) {
         StreamUsers.remove({});
         Tweets.remove({});
+        // Camilo Zambrano: You should also trim and check the tweet for spaces or some weird special characters
         check(hashtag, String);
         var Twitter = require("twitter");
+        /* Camilo Zambrano: To speed things up, you should make the twitter client outside the methods and call it
+        everytime you use it. Not spend time creating the client over and over again*/
         var client = new Twitter({
             consumer_key: process.env.TWITTER_CONSUMER_KEY,
             consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
