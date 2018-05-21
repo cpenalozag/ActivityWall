@@ -1,3 +1,5 @@
+// Camilo Zambrano: you should organize all the .js files on different folders  
+
 import React, {Component} from "react";
 import {Switch, Route} from 'react-router-dom'
 
@@ -22,6 +24,7 @@ class App extends Component {
     handleOnClick(hashtag) {
         // Get user input
 
+        // Camilo Zambrano: For extra security you should also validate the user input before using the backend
         Meteor.call("tweets.stream", hashtag);
         Meteor.call("tweets.get", hashtag);
         this.setState({hashtag:hashtag, redirect:true})
@@ -47,4 +50,7 @@ class App extends Component {
     }
 }
 
-export default App;
+// Camilo Zambrano: A great idea is to always use proptypes to make sure your component gets the proptypes you need.
+
+export default App; /* Camilo Zambrano: also, you are using routing and that's good. But you should also use a withtracker element from 
+react meteor data*/
